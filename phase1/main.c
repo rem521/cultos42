@@ -1,7 +1,7 @@
 // main.c, 159
 // OS bootstrap and The Kernel for OS phase 1
 //
-// Team Name: ??????? (Members: ??????...)
+// Team Name: CultOS (Members: Jeremiah Cabugao, Ryan Naatz)
 
 #include "include.h"  // given SPEDE stuff
 #include "types.h"    // kernle data types
