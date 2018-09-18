@@ -17,17 +17,17 @@ typedef struct {
 } TF_t;
 
 typedef struct {
-   ...                       // read in 1.html
-   ...
-   ...
-   ...
+	TF_t *TF_p;
+	int time;
+	int life;
+	state_t state;
 } pcb_t;                     
 
-typedef struct {             // generic queue type
-  ...                        // for a circular queue
-  ...  
-  ...  
-  ...  
+typedef struct {
+	int q[Q_SIZE];
+	int head;
+	int tail;
+	int size; 
 } q_t;
 
 #endif

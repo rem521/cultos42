@@ -9,20 +9,26 @@
 
 // loads proc TF to run it
 ENTRY(Loader)
-   copy 4 bytes from above register esp to register ecx
-   copy ecx to esp (point esp to the process trapframe)
-   pop all (8) registers
-   return from interrupt
+   //copy 4 bytes from above register esp to register ecx
+	movl 4(%esp), %ecx
+   //copy ecx to esp (point esp to the process trapframe)
+	movl %ecx, %esp
+   //pop all (8) registers
+	popa
+   //return from interrupt
+	iret
 
 // build proc frame, and go into kernel
 ENTRY(TimerEntry)                  // will have efl, cs, eip pushed by hardware
-   push all (8) registers
-   copy esp to ecx
+   //push all (8) registers
+   pusha
+   //copy esp to ecx
+   movl %esp, ecx
    movw $0x10, %ax                 // set kernel data segment registers
    mov %ax, %ds                    // set kernel data segment registers
    mov %ax, %es                    // set kernel data segment registers
    leal k_stack + K_STACK_SIZE, %esp  // set esp to top of kernel stack
-   push ecx (onto the kernel stack)
-   clear the direction flag of efl
-   call TheKernel C function
+   push %ecx //(onto the kernel stack)
+   cld efl //clear the direction flag of efl
+   call CNAME(TheKernel) //call TheKernel C function
 
