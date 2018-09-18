@@ -20,9 +20,9 @@ void InitKernel(void) {             // init and set up kernel!
    int i;
    struct i386_gate *IVT_p;         // IVT's DRAM location
 
-   ...   = get_idt_base();          // get IVT location
-   fill_gate(...);                  // fill out IVT for timer
-   outportb(...);                   // mask out PIC for timer
+   IVT_p = get_idt_base();          // get IVT location
+   fill_gate( &IVT_p[TIMER], (int)TimerEntry, getcs(), ACC_INTR_GATE, 0 );                  // fill out IVT for timer
+   outportb(0x21, ~0x01);                   // mask out PIC for timer
 
    Bzero(...);                      // clear 2 queues
    Bzero(...);
