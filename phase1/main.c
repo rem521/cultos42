@@ -27,8 +27,8 @@ void InitKernel(void) {             // init and set up kernel!
    Bzero(&ready_q, sizeof(q_t));                      // clear 2 queues
    Bzero(&avail_q, sizeof(q_t));
 
-   for(i=0; i<=(avail_q->size); i++) {    // add all avail PID's to the queue
-      EnQ(avail_q->q[avail_q->head], *ready_q);   
+   for(i=0; i<Q_SIZE); i++) {    // add all avail PID's to the queue
+      EnQ(i, &avail_q ); 
 
    }
 
@@ -37,18 +37,19 @@ void InitKernel(void) {             // init and set up kernel!
 }
 
 void Scheduler(void) {             // choose a cur_pid to run
-   if cur_pid is greater than 0, just return; // a user PID is already picked
+   if( cur_pid > 0) return; // a user PID is already picked
 
-   if ready_q is empty && cur_pid is 0, just return; // InitProc OK
+   if(ready_q->size == 0 && cur_pid == 0) return; // InitProc OK
 
-   if ready_q is empty && cur_pid is -1 {
-      cons_printf "Kernel panic: no process to run!\n
+   if(ready_q->size == 0 && cur_pid == -1) {
+      cons_printf( "Kernel panic: no process to run!\n");
       breakpoint();                                  // to GDB we go
    }
 
-   if cur_pid is not -1, then:
+   if(cur_pid != -1) {
       1. append cur_pid to ready_q; // suspend cur_pid
       2. change its state
+   }
    replace cur_pid with the 1st one in ready_q; // pick a user proc
 
    ... ;                          // reset process time
