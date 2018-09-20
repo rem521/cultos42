@@ -76,20 +76,22 @@ int main(void) {                       // OS bootstraps
 void TheKernel(TF_t *TF_p) {           // kernel runs
    char ch;
 
-   ....TF_p = TF_p; // save TF addr
+   pcb[cur_pid]->TF_p = TF_p; // save TF addr
 
    TimerISR();                     // handle tiemr event
 
-   if PC KB pressed {                  // if keyboard pressed
-      get the pressed key/character
-      if it's 'b':                     // 'b' for breakpoint
-         ...                        // go into GDB
+   if(cons_kbhit()) {                  // if keyboard pressed
+      ch= con_getchar();    //get the pressed key/character
+      if(ch=='b'){                     // 'b' for breakpoint
+         breakpoint();                        // go into GDB
          break;
-      if it's 'n':                     // 'n' for new process
-         call NewProc ISR (with UserProc as argument); // create a UserProc
-     }
+      }
+      if(ch == 'n' ){                     // 'n' for new process
+         NewProcISR(UserProc()); // create a UserProc
+      }
    }
+   
    Scheduler(); // which may pick another proc
-   call Loader(with TF_p of scheduled process); // load proc to run!
+   Loader(pcb[cur_pid]->TF_P); // load proc to run!
 }
 
