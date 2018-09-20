@@ -36,18 +36,35 @@ void InitProc(void) {
 void UserProc(void) {
 	int i;
 	unsigned short *p;
-	
+		
  
 	while(1) {
      // point p to (0xb8000 + offset according to its PID)
-		p = 0xb8000 + cur_pid;
+		p = 0xb8000 + 80 * cur_pid;
+		
      // show 1st digit of its PID
+		*p = cur_pid / 10 + VGA_MASK;
+		cons_putchar(p);
      // move p to next column
+		p++;
      // show 2nd digit of its PID
+     		*p = cur_pid % 10 + VGA_MASK;
+		cons_putchar(p);
+     // wait for half of LOOP: loop on asm("inb $0x80");
+     		
+		for(i=0; i<=LOOP/2; i++)
+			asm("inb $0x80");
+
+     // erase above writing
      // wait for half of LOOP: loop on asm("inb $0x80");
 
-      erase above writing
-      wait for half of LOOP: loop on asm("inb $0x80");
+		p = 0xb8000 + 80 * cur_pid;
+		*p = ' ';
+		cons_putchar(p);
+		p++;
+		con_putchar(p);	
+		for(i=0; i<=LOOP/2; i++)
+			asm("inb $0x80");
    }
 
 

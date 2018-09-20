@@ -21,12 +21,19 @@ void InitKernel(void) {             // init and set up kernel!
    struct i386_gate *IVT_p;         // IVT's DRAM location
 
    IVT_p = get_idt_base();          // get IVT location
-   fill_gate( &IVT_p[TIMER], (int)TimerEntry, getcs(), ACC_INTR_GATE, 0 );                  // fill out IVT for timer
+   fill_gate( &IVT_p[TIMER], (int)TimerEntry, getcs(), ACC_INTR_GATE, 0 ); // fill out IVT for timer
    outportb(0x21, ~0x01);                   // mask out PIC for timer
 
-   Bzero(...);                      // clear 2 queues
-   Bzero(...);
-   for(i=...                        // add all avail PID's to the queue
+   Bzero(&ready_q, sizeof(q_t));                      // clear 2 queues
+   Bzero(&avail_q, sizeof(q_t));
+
+   for(i=0; i<=(avail_q->size); i++) {    // add all avail PID's to the queue
+      EnQ(avail_q->q[avail_q->head], *ready_q);   
+
+   }
+
+   cur_pid = -1;
+
 }
 
 void Scheduler(void) {             // choose a cur_pid to run
@@ -51,8 +58,9 @@ void Scheduler(void) {             // choose a cur_pid to run
 int main(void) {                       // OS bootstraps
    initialize the kernel-related stuff by calling ...
 
-   create InitProc process;            // create InitProc
-   set cur_pid to the 1st PID;         // select cur_pid
+   InitProc();            // create InitProc
+   //set cur_pid to the 1st PID;         // select cur_pid
+   Scheduler();
    call Loader(with its TF_p);         // load proc to run
 
    return 0; // statement never reached, compiler needs it for syntax
@@ -63,7 +71,7 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
 
    ....TF_p = TF_p; // save TF addr
 
-   call Timer ISR;                     // handle tiemr event
+   TimerISR();                     // handle tiemr event
 
    if PC KB pressed {                  // if keyboard pressed
       get the pressed key/character
@@ -74,7 +82,7 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
          call NewProc ISR (with UserProc as argument); // create a UserProc
      }
    }
-   call Scheduler() // which may pick another proc
+   Scheduler(); // which may pick another proc
    call Loader(with TF_p of scheduled process); // load proc to run!
 }
 

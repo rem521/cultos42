@@ -14,15 +14,17 @@ void NewProcISR(func_p_t p) {  // arg: where process code starts
 
    if( avail_q is empty ) {    // may occur if too many been created
       cons_printf("Kernel panic: no more process!\n");
-      ...                      // cannot continue, alternative: breakpoint();
+                           // cannot continue, alternative: breakpoint();
+      breakpoint();
    }
 
-   ...                                       // alloc PID (1st is 0)
-   ...                                       // clear PCB
-   ...                                       // clear stack
-   ...                                       // change process state
+   pid = DeQ(&avail_q);                  // alloc PID (1st is 0)
+   
+                                         // clear PCB
+                                         // clear stack
+                                         // change process state
 
-   ...                                       // queue it
+                                         // queue it
 
 // point TF_p to stack & fill it out
    pcb[...].TF_p =                               
