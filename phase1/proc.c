@@ -25,7 +25,7 @@ void InitProc(void) {
 			asm("inb $0x80");
 
 	//erase above writing
-		cons_puchar(w);
+		cons_putchar(w);
 	
 	//wait for half of LOOP: loop on asm("inb $0x80");
 		for(i=0; i<=LOOP/2; i++)
@@ -62,7 +62,7 @@ void UserProc(void) {
 		*p = ' ';
 		cons_putchar(p);
 		p++;
-		con_putchar(p);	
+		cons_putchar(p);	
 		for(i=0; i<=LOOP/2; i++)
 			asm("inb $0x80");
    }

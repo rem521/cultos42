@@ -8,7 +8,7 @@
 void Bzero(char *p, int bytes) {
 	int i;
 	for(i=0; i<=bytes; i++)
-	    *q++ = 0;
+	    *p++ = 0;
 }
 
 int QisEmpty(q_t *p) { // return 1 if empty, else 0

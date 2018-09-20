@@ -1,8 +1,11 @@
 // entry.S, entries to kernel services, build process trapframe
 
+#include "entry.h"
+
 #include "constants.h"
 #include <spede/machine/asmacros.h> // do not use/include "spede.h"
 #define K_STACK_SIZE (16*1024)      // kernel has 16KB stack
+
 
 .comm k_stack, K_STACK_SIZE, 1      // declare kernel stack space (16K x 1B)
 .text
@@ -23,12 +26,12 @@ ENTRY(TimerEntry)                  // will have efl, cs, eip pushed by hardware
    //push all (8) registers
    pusha
    //copy esp to ecx
-   movl %esp, ecx
+   movl %esp, %ecx
    movw $0x10, %ax                 // set kernel data segment registers
    mov %ax, %ds                    // set kernel data segment registers
    mov %ax, %es                    // set kernel data segment registers
    leal k_stack + K_STACK_SIZE, %esp  // set esp to top of kernel stack
    push %ecx //(onto the kernel stack)
-   cld efl //clear the direction flag of efl
+   cld  //clear the direction flag of efl
    call CNAME(TheKernel) //call TheKernel C function
 

@@ -21,13 +21,13 @@ void InitKernel(void) {             // init and set up kernel!
    struct i386_gate *IVT_p;         // IVT's DRAM location
 
    IVT_p = get_idt_base();          // get IVT location
-   fill_gate( &IVT_p[TIMER], (int)TimerEntry, getcs(), ACC_INTR_GATE, 0 ); // fill out IVT for timer
+   fill_gate( &IVT_p[TIMER], (int)TimerEntry, get_cs(), ACC_INTR_GATE, 0 ); // fill out IVT for timer
    outportb(0x21, ~0x01);                   // mask out PIC for timer
 
-   Bzero(&ready_q, sizeof(q_t));                      // clear 2 queues
-   Bzero(&avail_q, sizeof(q_t));
+   Bzero((char *)&ready_q, sizeof(q_t));                      // clear 2 queues
+   Bzero((char *)&avail_q, sizeof(q_t));
 
-   for(i=0; i<Q_SIZE); i++) {    // add all avail PID's to the queue
+   for(i=0; i<Q_SIZE; i++) {    // add all avail PID's to the queue
       EnQ(i, &avail_q ); 
 
    }
@@ -39,9 +39,9 @@ void InitKernel(void) {             // init and set up kernel!
 void Scheduler(void) {             // choose a cur_pid to run
    if( cur_pid > 0) return; // a user PID is already picked
 
-   if(ready_q->size == 0 && cur_pid == 0) return; // InitProc OK
+   if(ready_q.size == 0 && cur_pid == 0) return; // InitProc OK
 
-   if(ready_q->size == 0 && cur_pid == -1) {
+   if(ready_q.size == 0 && cur_pid == -1) {
       cons_printf( "Kernel panic: no process to run!\n");
       breakpoint();                                  // to GDB we go
    }
@@ -50,12 +50,12 @@ void Scheduler(void) {             // choose a cur_pid to run
      // 1. append cur_pid to ready_q; // suspend cur_pid
      	EnQ(cur_pid, &ready_q);
      // 2. change its state
-        pcb[cur_pid]->state = READY;
+        pcb[cur_pid].state = READY;
    }
   // replace cur_pid with the 1st one in ready_q; // pick a user proc
 
    cur_pid = DeQ(&ready_q);                          // reset process time
-   pcb[cur_pid]->state = RUN;                          // change its state
+   pcb[cur_pid].state = RUN;                          // change its state
 }
 
 int main(void) {                       // OS bootstraps
@@ -68,7 +68,7 @@ int main(void) {                       // OS bootstraps
    Scheduler();
 
   // call Loader(with its TF_p);         // load proc to run
-   Loader(pcb[cur_pid]->TF_p);
+   Loader(pcb[cur_pid].TF_p);
 
    return 0; // statement never reached, compiler needs it for syntax
 }
@@ -76,22 +76,21 @@ int main(void) {                       // OS bootstraps
 void TheKernel(TF_t *TF_p) {           // kernel runs
    char ch;
 
-   pcb[cur_pid]->TF_p = TF_p; // save TF addr
+   pcb[cur_pid].TF_p = TF_p; // save TF addr
 
    TimerISR();                     // handle tiemr event
 
    if(cons_kbhit()) {                  // if keyboard pressed
-      ch= con_getchar();    //get the pressed key/character
+      ch= cons_getchar();    //get the pressed key/character
       if(ch=='b'){                     // 'b' for breakpoint
-         breakpoint();                        // go into GDB
-         break;
+         breakpoint();                       // go into GDB
       }
       if(ch == 'n' ){                     // 'n' for new process
-         NewProcISR(UserProc()); // create a UserProc
+         NewProcISR(UserProc); // create a UserProc
       }
    }
    
    Scheduler(); // which may pick another proc
-   Loader(pcb[cur_pid]->TF_P); // load proc to run!
+   Loader(pcb[cur_pid].TF_p); // load proc to run!
 }
 

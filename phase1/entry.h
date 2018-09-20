@@ -10,7 +10,7 @@ __BEGIN_DECLS
 
 #include "types.h"                // TF_t
 
-void TimerEntry(void);            // coded in entry.S, assembler won't like this syntax
+void TimerEntry();            // coded in entry.S, assembler won't like this syntax
 void Loader(TF_t *);              // coded in entry.S
 
 __END_DECLS
