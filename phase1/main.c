@@ -47,22 +47,28 @@ void Scheduler(void) {             // choose a cur_pid to run
    }
 
    if(cur_pid != -1) {
-      1. append cur_pid to ready_q; // suspend cur_pid
-      2. change its state
+     // 1. append cur_pid to ready_q; // suspend cur_pid
+     	EnQ(cur_pid, &ready_q);
+     // 2. change its state
+        pcb[cur_pid]->state = READY;
    }
-   replace cur_pid with the 1st one in ready_q; // pick a user proc
+  // replace cur_pid with the 1st one in ready_q; // pick a user proc
 
-   ... ;                          // reset process time
-   ... ;                          // change its state
+   cur_pid = DeQ(&ready_q);                          // reset process time
+   pcb[cur_pid]->state = RUN;                          // change its state
 }
 
 int main(void) {                       // OS bootstraps
-   initialize the kernel-related stuff by calling ...
+  // initialize the kernel-related stuff by calling ...
+   InitKernel();
 
    InitProc();            // create InitProc
-   //set cur_pid to the 1st PID;         // select cur_pid
+
+   //call Scheduler() to set cur_pid to the 1st PID;
    Scheduler();
-   call Loader(with its TF_p);         // load proc to run
+
+  // call Loader(with its TF_p);         // load proc to run
+   Loader(pcb[cur_pid]->TF_p);
 
    return 0; // statement never reached, compiler needs it for syntax
 }
