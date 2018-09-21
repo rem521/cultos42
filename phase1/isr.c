@@ -21,7 +21,7 @@ void NewProcISR(func_p_t p) {  // arg: where process code starts
    pid = DeQ(&avail_q);                  // alloc PID (1st is 0)
    Bzero((char *)&pcb[pid],sizeof(pcb_t));    // clear PCB  
    Bzero((char *)&stack[pid], sizeof(stack));    // clear stack
-   pcb->state = READY;           // change process state
+   pcb[pid].state = READY;           // change process state
    
    EnQ(pid, &ready_q);                                      // queue it
 

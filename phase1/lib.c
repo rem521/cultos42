@@ -50,8 +50,9 @@ void EnQ(int pid, q_t *p) {
 
 	else {
 		p->size++;
+    p->q[p->tail] = pid;
 		p->tail++;
 		p->tail = p->tail % Q_SIZE;
-		p->q[p->tail] = pid;
+		//p->q[p->tail] = pid;
 	}
 }

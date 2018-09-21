@@ -22,7 +22,7 @@ void InitKernel(void) {             // init and set up kernel!
 
    IVT_p = get_idt_base();          // get IVT location
    fill_gate( &IVT_p[TIMER], (int)TimerEntry, get_cs(), ACC_INTR_GATE, 0 ); // fill out IVT for timer
-   outportb(0x21, ~0x01);                   // mask out PIC for timer
+   outportb(PIC_MASK, MASK);                   // mask out PIC for timer
 
    Bzero((char *)&ready_q, sizeof(q_t));                      // clear 2 queues
    Bzero((char *)&avail_q, sizeof(q_t));
@@ -62,7 +62,7 @@ int main(void) {                       // OS bootstraps
   // initialize the kernel-related stuff by calling ...
    InitKernel();
 
-   InitProc();            // create InitProc
+   NewProcISR(InitProc);            // create InitProc
 
    //call Scheduler() to set cur_pid to the 1st PID;
    Scheduler();
