@@ -26,7 +26,7 @@ void InitKernel(void) {             // init and set up kernel!
 
    Bzero((char *)&ready_q, sizeof(q_t));                      // clear 2 queues
    Bzero((char *)&avail_q, sizeof(q_t));
-
+   
    for(i=0; i<Q_SIZE; i++) {    // add all avail PID's to the queue
       EnQ(i, &avail_q ); 
 
@@ -55,6 +55,7 @@ void Scheduler(void) {             // choose a cur_pid to run
   // replace cur_pid with the 1st one in ready_q; // pick a user proc
 
    cur_pid = DeQ(&ready_q);                          // reset process time
+   pcb[cur_pid].time=0;
    pcb[cur_pid].state = RUN;                          // change its state
 }
 

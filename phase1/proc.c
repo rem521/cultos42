@@ -12,8 +12,8 @@ void InitProc(void) {
 
 	p = 0xb8000; // upper-left corner of display
 	*p = '.' + VGA_MASK;
-	//w = 0xb8000;
-	//*w = 0x20;
+
+
 	
 
 	while(1) {
@@ -46,13 +46,13 @@ void UserProc(void) {
 		
      // show 1st digit of its PID
 		*p = '0' + cur_pid / 10 + VGA_MASK;
-		//cons_putchar(p);
+	
    
      // move p to next column
 		p++;
      // show 2nd digit of its PID
      		*p = '0'  +cur_pid % 10 + VGA_MASK;
-		//cons_putchar(p);
+	
      // wait for half of LOOP: loop on asm("inb $0x80");
      		
 		for(i=0; i<=LOOP/2; i++)
@@ -63,9 +63,9 @@ void UserProc(void) {
 
 		p = 0xb8000 + 160 * cur_pid;
 		*p = ' ';
-		//cons_putchar(p);
+		
 		p++;
-		//cons_putchar(p);	
+		
 		for(i=0; i<=LOOP/2; i++)
 			asm("inb $0x80");
    }
