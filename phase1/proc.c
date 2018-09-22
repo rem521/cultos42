@@ -8,7 +8,7 @@
 
 void InitProc(void) {
 	int i;
-	unsigned short *p, *w;
+	unsigned short *p;
 
 	p = 0xb8000; // upper-left corner of display
 	*p = '.' + VGA_MASK;

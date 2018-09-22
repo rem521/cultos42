@@ -45,7 +45,7 @@ void TimerISR(void) {
    if(pcb[cur_pid].time == TIME_MAX) {       // if runs long enough    
       EnQ(cur_pid, &ready_q);                // move it back to ready_q
       pcb[cur_pid].state = READY;           // change its state
-      cur_pid = 0;                           // now no running proc
+      cur_pid = -1;                           // now no running proc
    
    }
 }
