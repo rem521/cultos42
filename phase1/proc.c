@@ -10,7 +10,7 @@ void InitProc(void) {
 	int i;
 	unsigned short *p;
 
-	p = 0xb8000; // upper-left corner of display
+	p =(short *) 0xb8000; // upper-left corner of display
 	*p = '.' + VGA_MASK;
 
 
@@ -26,7 +26,7 @@ void InitProc(void) {
 			asm("inb $0x80");
 
 	//erase above writing
-	  *p=NULL;
+	  *p= (short) NULL;
     //cons_putchar((char *)p);
 	
 	//wait for half of LOOP: loop on asm("inb $0x80");
@@ -42,7 +42,7 @@ void UserProc(void) {
  
 	while(1) {
      // point p to (0xb8000 + offset according to its PID)
-		p = 0xb8000 + 160 * cur_pid;
+		p = (short *) (0xb8000 + 160 * cur_pid);
 		
      // show 1st digit of its PID
 		*p = '0' + cur_pid / 10 + VGA_MASK;
@@ -61,11 +61,11 @@ void UserProc(void) {
      // erase above writing
      // wait for half of LOOP: loop on asm("inb $0x80");
 
-		p = 0xb8000 + 160 * cur_pid;
-		*p = NULL;
+		p = (short *) (0xb8000 + 160 * cur_pid);
+		*p = (short) NULL;
 		
 		p++;
-		*p= NULL;
+		*p= (short) NULL;
 		for(i=0; i<=LOOP/2; i++)
 			asm("inb $0x80");
    }
