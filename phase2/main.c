@@ -23,7 +23,8 @@ void InitKernel(void) {             // init and set up kernel!
    int i;
    struct i386_gate *IVT_p;         // IVT's DRAM location
 
-   IVT_p = get_idt_base();          // get IVT location
+   IVT_p = get_idt_base();   // get IVT location
+
    fill_gate( &IVT_p[TIMER], (int)TimerEntry, get_cs(), ACC_INTR_GATE, 0 ); // fill out IVT for timer
    outportb(PIC_MASK, MASK);                   // mask out PIC for timer
 
@@ -34,7 +35,9 @@ void InitKernel(void) {             // init and set up kernel!
       EnQ(i, &avail_q ); 
 
    }
-
+   
+   sys_ticks = 0;
+   video_p = HOME_POS;
    cur_pid = -1;
 
 }
