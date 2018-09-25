@@ -9,5 +9,13 @@ void NewProcISR( func_p_t p);
 
 void TimerISR(void);
 
+void GetPidISR(void);
+
+void SleepISR(void);
+
+void SetVideoISR(void);
+
+void WriteISR(void);
+
 
 #endif

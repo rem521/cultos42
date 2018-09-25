@@ -50,4 +50,31 @@ void TimerISR(void) {
    }
 }
 
+void GetPidISR(void){
+
+
+}
+
+void SleepISR(void){
+
+
+}
+
+void SetVidoeISR(void){
+
+
+}
+
+
+void WriteISR(void){
+
+
+
+}
+
+
+
+
+
+
 
