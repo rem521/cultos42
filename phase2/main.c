@@ -28,6 +28,8 @@ void InitKernel(void) {             // init and set up kernel!
    fill_gate( &IVT_p[TIMER], (int)TimerEntry, get_cs(), ACC_INTR_GATE, 0 ); // fill out IVT for timer
    outportb(PIC_MASK, MASK);                   // mask out PIC for timer
 
+   fill_gate(&IVT_p[SYSCALL], (int)SyscallEntry, get_cs(), ACC_INTR_GATE, 0);
+
    Bzero((char *)&ready_q, sizeof(q_t));                      // clear 2 queues
    Bzero((char *)&avail_q, sizeof(q_t));
    
