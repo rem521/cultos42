@@ -23,19 +23,39 @@ void UserProc(void) {
    int my_pid;
    char str[3];
 
-   get my PID and make a string from it (null-delimited)
+  // get my PID and make a string from it (null-delimited)
+   my_pid = GetPid();
+   str[0] = my_pid % 10;
+   str[1] = my_pid /10;
+   str[3] = NULL;
 
-   set video cursor to beginning of my row
-   write out that extra long msg to test line wrapped and erasure
-   sleep for 2 seconds
+  // set video cursor to beginning of my row
+   SetVideo(my_pid+1, 1);
+
+  // write out that extra long msg to test line wrapped and erasure
+   Write(STDOUT, "Here I am, a brand new spanking process! How I love the aromatic fragrance of summer roses permeating in the cool fresh morning air... Ah...");
+   
+  // sleep for 2 seconds
+   Sleep(2);
 
    while(1) {
-      call service to set video cursor to beginning of my row
-      call service to write out my PID str
-      call service to sleep for 2 seconds
+     // call service to set video cursor to beginning of my row
+     SetVideo(my_pid+1, 1);
 
-      call service to set video cursor to beginning of my row
-      call service to erase my PID str (with "--")
-      call service to sleep for 2 seconds
+     // call service to write out my PID str
+     Write(STDOUT, &str);
+
+     // call service to sleep for 2 seconds
+     Sleep(2);
+
+     //call service to set video cursor to beginning of my row
+     SetVideo(my_pid+1, 1);
+
+     //call service to erase my PID str (with "--")
+     Write(STDOUT, "--");    
+
+     //call service to sleep for 2 seconds
+     Sleep(2);
+     
    }
 }
