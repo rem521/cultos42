@@ -90,8 +90,24 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
 //   TimerISR();                     // handle tiemr event
 
    switch(TF_p->entry) {
-     
-
+      case SLEEP:
+        SleepISR();
+        break;
+      case GETPID:
+        GetPidISR();
+        break;
+      case SETVIDEO:
+        SetVideoISR();
+        break;
+      case WRITE:
+        WriteISR();
+        break;
+      case TIMER:
+        TimerISR();
+        break;
+      default:
+        cons_prinf("Entry issue");
+        breakpoint();
    }
 
    if(cons_kbhit()) {                  // if keyboard pressed
