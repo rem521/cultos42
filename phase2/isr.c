@@ -51,22 +51,38 @@ void TimerISR(void) {
 }
 
 void GetPidISR(void){
-
-
+   pcb[cur_pid].TF_p->ebx = cur_pid;
 }
 
 void SleepISR(void){
+   int sleepSecond;
+   sleepSecond = pcb[cur_pid].TF_p->ebx;
 
-
+   pcb[cur_pid].wake_time = sys_ticks + sleepSecond * 100;
+   pcb[cur_pid].state_t = SLEEPY;
+   cur_pid = -1; //might need to be zero!!
 }
 
 void SetVidoeISR(void){
+   int row, col;
 
+   row = pcb[cur_pid].TF_p->ebx;
+   col = pcb[cur_pid].TF_p->ecx;
 
+   video_p = HOME_POS + (row-1) * 80 + (col-1);
 }
 
 
 void WriteISR(void){
+   int device;
+   char *str;
+   char c;
+
+   device = pcb[cur_pid].TF_p->ebx;
+   str = pcb[cur_pid].TF_p->ecx;
+   if(device == STDOUT) {
+      
+   }
 
 
 

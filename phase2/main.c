@@ -87,7 +87,12 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
 
    pcb[cur_pid].TF_p = TF_p; // save TF addr
 
-   TimerISR();                     // handle tiemr event
+//   TimerISR();                     // handle tiemr event
+
+   switch(TF_p->entry) {
+     
+
+   }
 
    if(cons_kbhit()) {                  // if keyboard pressed
       ch= cons_getchar();    //get the pressed key/character
