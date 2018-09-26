@@ -48,6 +48,13 @@ void TimerISR(void) {
       cur_pid = -1;                           // now no running proc
    
    }
+   sys_ticks++;
+   
+   if(pcb[cur_pid].state == SLEEPY && pcb[cur_pid].wake_time == sys_ticks){
+      EnQ(cur_pid, &ready_q);
+      pcb[cur_pid].state_t = READY;
+   }
+
 }
 
 void GetPidISR(void){
