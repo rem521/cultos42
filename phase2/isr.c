@@ -83,12 +83,28 @@ void SetVidoeISR(void){
 void WriteISR(void){
    int device;
    char *str;
-   char c;
+   int i;
 
    device = pcb[cur_pid].TF_p->ebx;
    str = pcb[cur_pid].TF_p->ecx;
    if(device == STDOUT) {
-      
+      for( i=0; i<strlen(str); i++){
+        
+        if(video_p == END_POS)
+          video_p = HOME_POS;
+        
+        if( (video_p-HOME_POS) % 80 == 0 )
+          Bzero( &video_p, 80);
+        
+        if( str[i] != 0x0A){
+          *video_p= str[i];
+          video_p++;
+        }
+        
+        else{
+          video_p+=80 - (video_p-HOME_POS)%80;
+        }  
+      }
    }
 
 
