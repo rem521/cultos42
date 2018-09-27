@@ -52,7 +52,7 @@ void TimerISR(void) {
    
    if(pcb[cur_pid].state == SLEEPY && pcb[cur_pid].wake_time == sys_ticks){
       EnQ(cur_pid, &ready_q);
-      pcb[cur_pid].state_t = READY;
+      pcb[cur_pid].state = READY;
    }
 
 }
@@ -66,7 +66,7 @@ void SleepISR(void){
    sleepSecond = pcb[cur_pid].TF_p->ebx;
 
    pcb[cur_pid].wake_time = sys_ticks + sleepSecond * 100;
-   pcb[cur_pid].state_t = SLEEPY;
+   pcb[cur_pid].state = SLEEPY;
    cur_pid = -1; //might need to be zero!!
 }
 
