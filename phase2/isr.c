@@ -50,7 +50,7 @@ void TimerISR(void) {
    }
    sys_ticks++;
    
-   if(pcb[cur_pid].state == SLEEPY && pcb[cur_pid].wake_time == sys_ticks){
+   if(pcb[cur_pid].state == SLEEPY && pcb[cur_pid].wake_time <= sys_ticks){
       EnQ(cur_pid, &ready_q);
       pcb[cur_pid].state = READY;
    }
@@ -83,7 +83,7 @@ void SetVideoISR(void){
 void WriteISR(void){
    int device;
    char *str;
-   int i;
+   int i,j;
 
    device = pcb[cur_pid].TF_p->ebx;
    str = pcb[cur_pid].TF_p->ecx;
@@ -94,10 +94,14 @@ void WriteISR(void){
           video_p = HOME_POS;
         
         if( (video_p-HOME_POS) % 80 == 0 )
-          Bzero((char *) &video_p, 80);
+          for(j=0; j<80; j++){          
+            *video_p=0;
+            video_p++;
+          }
         
         if( str[i] != 0x0A){
-          *video_p= str[i];
+          cons_printf(" %c", str[i]);
+          *video_p= str[i] + VGA_MASK;
           video_p++;
         }
         

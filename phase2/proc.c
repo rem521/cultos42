@@ -9,8 +9,8 @@ void InitProc(void) {
    int i;
 
    while(1) {
-      SetVideo(1, 1);         // pos video
-      Write(STDOUT, ".");
+      SetVideo(1,1);         // pos video
+      Write(STDOUT, "." );
       for(i=0; i<LOOP/2; i++)asm("inb $0x80"); // busy CPU
 
       SetVideo(1, 1);         // pos video
@@ -25,8 +25,8 @@ void UserProc(void) {
 
   // get my PID and make a string from it (null-delimited)
    my_pid = GetPid();
-   str[0] = my_pid % 10;
-   str[1] = my_pid /10;
+   str[0] = my_pid % 10 + '0' ;
+   str[1] = my_pid /10 + '0';
    str[3] = 0;
 
   // set video cursor to beginning of my row
