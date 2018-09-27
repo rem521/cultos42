@@ -106,7 +106,7 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
         TimerISR();
         break;
       default:
-        cons_prinf("Entry issue");
+        cons_printf("Entry issue");
         breakpoint();
    }
 

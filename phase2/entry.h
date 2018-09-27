@@ -13,6 +13,7 @@ __BEGIN_DECLS
 void TimerEntry();            // coded in entry.S, assembler won't like this syntax
 void Loader(TF_t *);              // coded in entry.S
 
+void SyscallEntry();
 __END_DECLS
 
 #endif // ifndef ASSEMBLER
