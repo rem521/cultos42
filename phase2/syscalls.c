@@ -34,7 +34,7 @@ void SetVideo(int row, int col) {
          int $128"
         : 
         : "g" (SETVIDEO), "g" (row), "g" (col)
-        : "eax", "ebx", "ecx")
+        : "eax", "ebx", "ecx");
          
 }
 
@@ -45,6 +45,6 @@ void Write(int device, char *str) {
          int $128"
          :
          : "g" (WRITE), "g"(device), "g"(str)
-         :"eax", "ebx", "ecx")
+         :"eax", "ebx", "ecx");
 
 }

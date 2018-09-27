@@ -3,7 +3,7 @@
 
 void Sleep(int);
 
-void GetPid(void);
+int GetPid(void);
 
 void SetVideo(int, int); //might be wrong
 

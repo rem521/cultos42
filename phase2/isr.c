@@ -70,7 +70,7 @@ void SleepISR(void){
    cur_pid = -1; //might need to be zero!!
 }
 
-void SetVidoeISR(void){
+void SetVideoISR(void){
    int row, col;
 
    row = pcb[cur_pid].TF_p->ebx;
@@ -94,7 +94,7 @@ void WriteISR(void){
           video_p = HOME_POS;
         
         if( (video_p-HOME_POS) % 80 == 0 )
-          Bzero( &video_p, 80);
+          Bzero((char *) &video_p, 80);
         
         if( str[i] != 0x0A){
           *video_p= str[i];
