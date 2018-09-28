@@ -27,7 +27,7 @@ void UserProc(void) {
    my_pid = GetPid();
    str[0] = my_pid / 10 + '0' ;
    str[1] = my_pid % 10 + '0';
-   str[3] = '/0';
+   str[3] = '\0';
 
   // set video cursor to beginning of my row
    SetVideo(my_pid+1, 1);

@@ -90,7 +90,7 @@ void WriteISR(void){
    device = pcb[cur_pid].TF_p->ebx;
    str = pcb[cur_pid].TF_p->ecx;
    if(device == STDOUT) {
-      for( i=0; str[i]!= 0 ; i++){
+      for( i=0; str[i]!= '\0' ; i++){
         
         if(video_p == END_POS)
           video_p = HOME_POS;
