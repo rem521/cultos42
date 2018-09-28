@@ -39,8 +39,6 @@ void TimerISR(void) {
 
    pcb[cur_pid].time++;                  // count up time
    pcb[cur_pid].life++;                  // count up life
-   
-
 
    if(pcb[cur_pid].time == TIME_MAX) {       // if runs long enough    
       EnQ(cur_pid, &ready_q);                // move it back to ready_q
@@ -93,14 +91,16 @@ void WriteISR(void){
         if(video_p == END_POS)
           video_p = HOME_POS;
         
-        if( (video_p-HOME_POS) % 80 == 0 )
+        if( (video_p-HOME_POS) % 80 == 0 ){
           for(j=0; j<80; j++){          
             *video_p=0;
             video_p++;
           }
+          video_p= video_p - 80; 
+        }
         
         if( str[i] != 0x0A){
-          cons_printf(" %c", str[i]);
+          //cons_printf(" %c", str[i]);
           *video_p= str[i] + VGA_MASK;
           video_p++;
         }
