@@ -27,7 +27,7 @@ void UserProc(void) {
    my_pid = GetPid();
    str[0] = my_pid / 10 + '0' ;
    str[1] = my_pid % 10 + '0';
-   str[3] = '\0';
+   str[2] = '\0';
 
   // set video cursor to beginning of my row
    SetVideo(my_pid+1, 1);
@@ -43,7 +43,7 @@ void UserProc(void) {
      SetVideo(my_pid+1, 1);
 
      // call service to write out my PID str
-     Write(STDOUT, &str);
+     Write(STDOUT,(char *) &str);
 
      // call service to sleep for 2 seconds
      Sleep(2);

@@ -88,7 +88,7 @@ void WriteISR(void){
    int i,j;
 
    device = pcb[cur_pid].TF_p->ebx;
-   str = pcb[cur_pid].TF_p->ecx;
+   str =(char *) pcb[cur_pid].TF_p->ecx;
    if(device == STDOUT) {
       for( i=0; str[i]!= '\0' ; i++){
         
