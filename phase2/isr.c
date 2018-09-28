@@ -35,6 +35,8 @@ void NewProcISR(func_p_t p) {  // arg: where process code starts
 
 // count run time and switch if hitting time limit
 void TimerISR(void) {
+   int i;
+
    outportb(PIC_CONTROL, DONE);    // notify PIC getting done
 
    pcb[cur_pid].time++;                  // count up time
@@ -48,9 +50,11 @@ void TimerISR(void) {
    }
    sys_ticks++;
    
-   if(pcb[cur_pid].state == SLEEPY && pcb[cur_pid].wake_time <= sys_ticks){
-      EnQ(cur_pid, &ready_q);
-      pcb[cur_pid].state = READY;
+   for(i=0; i<20; i++){
+    if(pcb[i].state == SLEEPY && pcb[i].wake_time <= sys_ticks){
+        EnQ(i, &ready_q);
+        pcb[i].state = READY;
+     }
    }
 
 }
@@ -86,7 +90,7 @@ void WriteISR(void){
    device = pcb[cur_pid].TF_p->ebx;
    str = pcb[cur_pid].TF_p->ecx;
    if(device == STDOUT) {
-      for( i=0; i<strlen(str); i++){
+      for( i=0; str[i]!= 0 ; i++){
         
         if(video_p == END_POS)
           video_p = HOME_POS;
