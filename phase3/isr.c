@@ -26,7 +26,7 @@ void NewProcISR(func_p_t p) {  // arg: where process code starts
    EnQ(pid, &ready_q);                                      // queue it
 
 // point TF_p to stack & fill it out
-   pcb[pid].TF_p = (TF_t *)&stack[pid][STACK_SIZE - sizeof(TF_t)];             
+   pcb[pid].TF_p = (TF_t *)&stack[pid][STACK_SIZE];             
    pcb[pid].TF_p--;
    pcb[pid].TF_p->efl = EF_DEFAULT_VALUE|EF_INTR; // enables intr
    pcb[pid].TF_p->cs = get_cs();                  // duplicate from CPU
@@ -97,7 +97,7 @@ void WriteISR(void){
         
         if( (video_p-HOME_POS) % 80 == 0 ){
           for(j=0; j<80; j++){          
-            *video_p=0;
+            *video_p= ' ';
             video_p++;
           }
           video_p= video_p - 80; 
@@ -109,7 +109,7 @@ void WriteISR(void){
           video_p++;
         }
         
-        else{
+       else{
           video_p+=80 - (video_p-HOME_POS)%80;
         }  
       }
