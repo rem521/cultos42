@@ -12,15 +12,14 @@
 
 // kernel data are all here:
 int cur_pid;                        // current running PID; if -1, none selected
-q_t ready_q, avail_q;               // avail PID and those created/ready to run
+q_t ready_q, avail_q, sem_q;               // avail PID and those created/ready to run
 pcb_t pcb[PROC_MAX];                // Process Control Blocks
 char stack[PROC_MAX][STACK_SIZE];   // process runtime stacks
 int sys_ticks;
 unsigned short *video_p;
 
 sem_t sem[SEM_MAX];
-q_t sem_q;
-int car sem;
+int car_sem;
 
 
 void InitKernel(void) {             // init and set up kernel!

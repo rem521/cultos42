@@ -49,36 +49,36 @@ void Write(int device, char *str) {
 
 }
 
-int SemInit(int i){
-    int passes;
+int SemInit(int passes){
+    int id;
     asm("movl %1, %%eax;
          movl %2, %%ebx;
          int $128
          movl %%ecx, %0;" 
-         : "=g" (passes)
-         : "g" (SEMINIT), "g" (i)
+         : "=g" (id)
+         : "g" (SEMINIT), "g" (passes)
          : "eax", "ebx", "ecx");
 
-    return passes;
+    return id;
 
 }
 
-void SemWait(int i){
+void SemWait(int id){
      asm("movl %0, %%eax;
 	  movl %1, %%ebx;
 	  int $128;"
 	  :
-	  : "g" (SEMWAIT), "g" (i)
+	  : "g" (SEMWAIT), "g" (id)
 	  : "eax", "ebx");
 }
 
 
-void SemPost(int i){
+void SemPost(int id){
      asm("movl %0, %%eax;
 	  movl %1, %%ebx;
 	  int $128;"
 	  :
-	  : "g" (SEMPOST), "g" (i)
+	  : "g" (SEMPOST), "g" (id)
 	  : "eax", "ebx");
 }
 
