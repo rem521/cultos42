@@ -127,6 +127,9 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
       if(ch == 'n' ){                     // 'n' for new process
          NewProcISR(UserProc); // create a UserProc
       }
+      if(ch == 'c'){
+         NewProcISR(CarProc);
+      }
    }
    
    Scheduler(); // which may pick another proc
