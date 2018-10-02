@@ -25,4 +25,9 @@
 #define HOME_POS ((unsigned short *)0xb8000)
 #define END_POS ((unsigned short *)0xb8000+24*80)
 
+#define SEM_MAX 20
+#define SEMINIT 101
+#define SEMWAIT 102
+#define SEMPOST 103
+
 #endif

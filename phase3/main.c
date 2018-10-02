@@ -18,6 +18,10 @@ char stack[PROC_MAX][STACK_SIZE];   // process runtime stacks
 int sys_ticks;
 unsigned short *video_p;
 
+sem_t sem[SEM_MAX];
+q_t sem_q;
+int car sem;
+
 
 void InitKernel(void) {             // init and set up kernel!
    int i;
@@ -34,7 +38,12 @@ void InitKernel(void) {             // init and set up kernel!
    Bzero((char *)&avail_q, sizeof(q_t));
    
    for(i=0; i<Q_SIZE; i++) {    // add all avail PID's to the queue
-      EnQ(i, &avail_q ); 
+      EnQ(i, &avail_q); 
+
+   }
+
+   for(i=0; i<SEM_MAX; i++) {
+      EnQ(i, &sem_q);
 
    }
    

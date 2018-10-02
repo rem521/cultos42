@@ -17,5 +17,10 @@ void SetVideoISR(void);
 
 void WriteISR(void);
 
+void SemInitISR(void);
+
+void SemWaitISR(void);
+
+void SemPostISR(void);
 
 #endif
