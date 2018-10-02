@@ -15,4 +15,8 @@ extern char stack[PROC_MAX][STACK_SIZE];
 extern int sys_ticks; // OS time
 extern unsigned short *video_p; //PC VGA video pointer
 
+extern sem_t sem[SEM_MAX];
+extern q_t sem_q;
+extern car_sem;
+
 #endif                         // endif of ifndef
