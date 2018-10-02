@@ -119,9 +119,18 @@ void WriteISR(void){
 
 }
 
+void SemInitISR(){
 
 
+}
 
+void SemWaitISR(){
+
+}
+
+void SemPostISR(){
+
+}
 
 
 

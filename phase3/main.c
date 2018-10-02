@@ -114,6 +114,15 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
       case TIMER:
         TimerISR();
         break;
+      case SEMINIT:
+        SeminitISR();
+        break;
+      case SEMWAIT:
+        SemWaitISR();
+        break;
+      case SEMPOST:
+        SemPostISR();
+        break;
       default:
         cons_printf("Entry issue");
         breakpoint();

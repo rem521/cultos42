@@ -48,3 +48,17 @@ void Write(int device, char *str) {
          :"eax", "ebx", "ecx");
 
 }
+
+int SemInit(int i){
+
+
+}
+
+void SemWait(int i){
+
+}
+
+
+void SemPost(int i){
+
+}
