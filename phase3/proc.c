@@ -8,6 +8,8 @@
 void InitProc(void) {
    int i;
 
+   car_sem = SemInit(3);
+
    while(1) {
       SetVideo(1,1);         // pos video
       Write(STDOUT, "." );
@@ -59,3 +61,44 @@ void UserProc(void) {
      
    }
 }
+
+void CarProc(void) {
+
+   int my_pid;
+   char str[3];
+
+  // get my PID and make a string from it (null-delimited)
+   my_pid = GetPid();
+   str[0] = my_pid / 10 + '0' ;
+   str[1] = my_pid % 10 + '0';
+   str[2] = '\0';
+
+  // set video cursor to beginning of my row
+   SetVideo(my_pid+1, 1);
+	
+   while(1) {
+
+      SetVideo(my_pid+1, 10);
+
+      Write(STDOUT, "I'm off...           ");
+      Sleep(2);
+
+      SemWait(car_sem);
+
+      SetVideo(my_pid+1, 10);
+      Write(STDOUT, "I'm on the bridge!");
+      Sleep(2);
+      SemPost(car_sem);
+   }
+
+
+
+
+
+
+}
+
+
+
+
+
