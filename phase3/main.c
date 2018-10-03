@@ -114,7 +114,7 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
         TimerISR();
         break;
       case SEMINIT:
-        SeminitISR();
+        SemInitISR();
         break;
       case SEMWAIT:
         SemWaitISR();

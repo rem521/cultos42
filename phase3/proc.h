@@ -9,5 +9,7 @@ void InitProc();
 
 void UserProc();
 
+void CarProc();
+
 #endif
 
