@@ -35,6 +35,7 @@ void InitKernel(void) {             // init and set up kernel!
 
    Bzero((char *)&ready_q, sizeof(q_t));                      // clear 2 queues
    Bzero((char *)&avail_q, sizeof(q_t));
+   Bzero((char *)&sem_q, sizeof(q_t));
    
    for(i=0; i<Q_SIZE; i++) {    // add all avail PID's to the queue
       EnQ(i, &avail_q); 

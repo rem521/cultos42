@@ -97,7 +97,7 @@ void WriteISR(void){
         
         if( (video_p-HOME_POS) % 80 == 0 ){
           for(j=0; j<80; j++){          
-            *video_p= ' ';
+            *video_p= ' ' + VGA_MASK;
             video_p++;
           }
           video_p= video_p - 80; 
@@ -122,30 +122,40 @@ void WriteISR(void){
 void SemInitISR(){
   int id;
   id= DeQ(&sem_q);
+  if(id == -1){
+     cons_printf("No more semaphores :( ");
+     breakpoint();
+  }
   Bzero((char *)&sem[id].wait_q, Q_SIZE);
   sem[id].passes=pcb[cur_pid].TF_p->ebx;
   pcb[cur_pid].TF_p->ecx= id;
+  *(HOME_POS + 21 * 80) = sem[id].passes + '0' + VGA_MASK;  
 }
 
 void SemWaitISR(){
   if(sem[car_sem].passes>0){
     sem[car_sem].passes--;
+    *(HOME_POS + 21 * 80) = sem[car_sem].passes + '0' + VGA_MASK;
     return;
   }
   EnQ(cur_pid, &sem[car_sem].wait_q);
   pcb[cur_pid].state=WAIT;
   cur_pid=-1;
+  *(HOME_POS + 21 * 80) = sem[car_sem].passes + '0' + VGA_MASK;
+  return;
 }
 
 void SemPostISR(){
   int pid;
   if(sem[car_sem].wait_q.size == 0){
     sem[car_sem].passes++;
+    *(HOME_POS + 21 * 80) = sem[car_sem].passes + '0' + VGA_MASK;
     return;
   }
   pid=DeQ(&sem[car_sem].wait_q);
   pcb[pid].state= READY;
   EnQ(pid , &ready_q);
+  *(HOME_POS + 21 * 80) = sem[car_sem].passes + '0' + VGA_MASK;
   return;
 
 

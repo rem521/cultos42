@@ -4,6 +4,7 @@
 
 #include "constants.h" // include only these 2 files
 #include "syscalls.h"
+#include "data.h" // or add a pointer to car_sem (*car_sem)
 
 void InitProc(void) {
    int i;
@@ -75,9 +76,10 @@ void CarProc(void) {
 
   // set video cursor to beginning of my row
    SetVideo(my_pid+1, 1);
+   Write(STDOUT, str);
 	
    while(1) {
-
+      
       SetVideo(my_pid+1, 10);
 
       Write(STDOUT, "I'm off...           ");
