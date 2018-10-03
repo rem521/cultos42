@@ -114,20 +114,47 @@ void WriteISR(void){
         }  
       }
    }
+
+
+
 }
 
 void SemInitISR(){
-   
-
+  int id;
+  id= DeQ(&sem_q);
+  Bzero((char *)&sem[id].wait_q, sizeof(wait_q));
+  sem[id]->passes=pcb[cur_pid].TF_p->ebx;
+  pcb[cur_pid].TF_p->ecx= id;
 }
 
 void SemWaitISR(){
-
+  if(sem[car_sem]->passes>0){
+    sem[car_sem]->passes--;
+    return;
+  }
+  EnQ(&sem[car_sem].wait_q, cur_pid);
+  pcb[cur_pid]->state=WAIT;
+  cur_pid=-1;
 }
 
 void SemPostISR(){
+  int pid;
+  if(sem[car_sem].wait_q.size == 0){
+    sem[car_sem].passes++
+    return;
+  }
+  pid=DeQ(&sem[car_sem].wait_q);
+  pcb[pid].state= READY;
+  Enq(&ready_q, pid);
+  return;
+
 
 }
+
+
+
+
+
 
 
 
