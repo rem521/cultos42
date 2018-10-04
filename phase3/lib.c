@@ -45,7 +45,8 @@ void EnQ(int pid, q_t *p) {
 	
 	if(QisFull(p)) {
 		cons_printf("Kernel panic: queue is full, cannot EnQ!\n");
-		return -1;
+		breakpoint();
+    return;
 	}
 
 	else {
