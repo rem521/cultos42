@@ -92,12 +92,6 @@ void CarProc(void) {
       Sleep(2);
       SemPost(car_sem);
    }
-
-
-
-
-
-
 }
 
 
