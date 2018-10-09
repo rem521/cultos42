@@ -38,5 +38,11 @@ typedef struct{
 	q_t wait_q;
 }sem_t;
 
+typedef struct{
+	int io, done;
+	char *tx_p;
+	q_t tx_wait_q;
+}term_if_t;
+
 
 #endif

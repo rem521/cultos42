@@ -19,4 +19,6 @@ extern sem_t sem[SEM_MAX];
 extern q_t sem_q;
 extern car_sem;
 
+extern term_if_t TERM_MAX;
+
 #endif                         // endif of ifndef

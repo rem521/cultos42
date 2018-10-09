@@ -6,7 +6,7 @@
 #define VGA_MASK 0x0f00     // foreground bright white, background black
 #define TIMER 32            // TIMER constant identifier
 #define PIC_MASK 0x21       // Programmable Interrupt Controller I/O
-#define MASK ~0x01          // mask for Programmable Interrupt Controller
+//#define MASK ~0x01          // mask for Programmable Interrupt Controller
 #define PIC_CONTROL 0x20    // Programmable Interrupt Controller I/O
 #define DONE 0x60
 
@@ -29,5 +29,15 @@
 #define SEMINIT 101
 #define SEMWAIT 102
 #define SEMPOST 103
+
+#define MASK ~0x19
+#define TERM_MAX 2
+#define TERM0 35
+#define TERM1 36
+#define TERM0_IO 0x2f8
+#define TERM1_IO 0x3e8
+#define TERM0_DONE 0x63
+#define TERM1_DONE 0x64
+
 
 #endif
