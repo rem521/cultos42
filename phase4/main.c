@@ -129,10 +129,10 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
         SemPostISR();
         break;
       case TERM0:
-         TermISR();
+         TermISR(TERM0);
          break;
       case TERM1:
-         TermISR();
+         TermISR(TERM1);
          break;
       default:
         cons_printf("Entry issue");
