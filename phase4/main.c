@@ -128,6 +128,12 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
       case SEMPOST:
         SemPostISR();
         break;
+      case TERM0:
+         TermISR();
+         break;
+      case TERM1:
+         TermISR();
+         break;
       default:
         cons_printf("Entry issue");
         breakpoint();
@@ -143,6 +149,9 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
       }
       if(ch == 'c'){
          NewProcISR(CarProc);
+      }
+      if(ch == 't'){
+         NewProcISR(TermProc);
       }
    }
    

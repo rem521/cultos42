@@ -14,6 +14,10 @@ void TimerEntry();            // coded in entry.S, assembler won't like this syn
 void Loader(TF_t *);              // coded in entry.S
 
 void SyscallEntry();
+
+void Term0Entry();
+void Term1Entry();
+
 __END_DECLS
 
 #endif // ifndef ASSEMBLER

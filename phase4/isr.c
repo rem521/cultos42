@@ -89,6 +89,11 @@ void WriteISR(void){
 
    device = pcb[cur_pid].TF_p->ebx;
    str =(char *) pcb[cur_pid].TF_p->ecx;
+   
+   if( str == '\0'){
+     return;
+    }
+
    if(device == STDOUT) {
       for( i=0; str[i]!= '\0' ; i++){
         
@@ -161,9 +166,13 @@ void SemPostISR(){
 
 }
 
+void TermISR(int index){
 
+}
 
+void TermTxISR(){
 
+}
 
 
 

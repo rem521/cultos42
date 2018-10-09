@@ -23,4 +23,8 @@ void SemWaitISR(void);
 
 void SemPostISR(void);
 
+void TermISR(int);
+
+void TermTxISR(void);
+
 #endif

@@ -11,5 +11,7 @@ void UserProc();
 
 void CarProc();
 
+void TermProc();
+
 #endif
 
