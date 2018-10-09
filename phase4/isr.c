@@ -50,7 +50,7 @@ void TimerISR(void) {
    }
    sys_ticks++;
    
-   for(i=0; i<Q_SIZE; i++){
+   for(i=0; i<PROC_MAX; i++){
     if(pcb[i].state == SLEEPY && pcb[i].wake_time <= sys_ticks){
         EnQ(i, &ready_q);
         pcb[i].state = READY;

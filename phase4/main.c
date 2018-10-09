@@ -20,7 +20,7 @@ unsigned short *video_p;
 
 sem_t sem[SEM_MAX];
 int car_sem;
-term_if_t TERM_MAX;
+term_if_t term_if[TERM_MAX];
 
 
 void InitKernel(void) {             // init and set up kernel!
