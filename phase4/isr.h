@@ -25,6 +25,6 @@ void SemPostISR(void);
 
 void TermISR(int);
 
-void TermTxISR(void);
+void TermTxISR(int);
 
 #endif

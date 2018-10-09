@@ -56,6 +56,22 @@ void InitKernel(void) {             // init and set up kernel!
    video_p = HOME_POS;
    cur_pid = -1;
 
+   TermInit(0);
+   TermInit(1);
+
+}
+
+void TermInit(int index){
+ Bzero((char *)&term_if[index], sizeof(term_if_t));
+ if(index == 0){
+   term_if[index].io= TERM0_IO;
+   term_if[index].done= TERM0_DONE;
+  }
+  if(index == 1){
+   term_if[index].io= TERM1_IO;
+   term_if[index].done= TERM1_DONE;
+  }
+  
 }
 
 void Scheduler(void) {             // choose a cur_pid to run
