@@ -22,6 +22,28 @@ sem_t sem[SEM_MAX];
 int car_sem;
 term_if_t term_if[TERM_MAX];
 
+void TermInit(int index){
+ int i;
+ Bzero((char *)&term_if[index], sizeof(term_if_t));
+ if(index == 0){
+   term_if[index].io= TERM0_IO;
+   term_if[index].done= TERM0_DONE;
+  }
+  if(index == 1){
+   term_if[index].io= TERM1_IO;
+   term_if[index].done= TERM1_DONE;
+  }
+  outportb(term_if[index].io+CFCR, CFCR_DLAB);             // CFCR_DLAB is 0x80
+  outportb(term_if[index].io+BAUDLO, LOBYTE(115200/9600)); // period of each of 9600 bauds  
+  outportb(term_if[index].io+BAUDHI, HIBYTE(115200/9600));
+  outportb(term_if[index].io+CFCR, CFCR_PEVEN|CFCR_PENAB|CFCR_7BITS);
+  outportb(term_if[index].io+IER, 0);
+  outportb(term_if[index].io+MCR, MCR_DTR|MCR_RTS|MCR_IENABLE);
+  for(i=0; i<LOOP/2; i++)asm("inb $0x80");
+  outportb(term_if[index].io+IER, IER_ERXRDY|IER_ETXRDY);  // enable TX & RX intr
+  for(i=0; i<LOOP/2; i++)asm("inb $0x80");
+  inportb(term_if[index].io); // clear key entered at PROCOMM screen
+}
 
 void InitKernel(void) {             // init and set up kernel!
    int i;
@@ -61,27 +83,6 @@ void InitKernel(void) {             // init and set up kernel!
 
 }
 
-void TermInit(int index){
- Bzero((char *)&term_if[index], sizeof(term_if_t));
- if(index == 0){
-   term_if[index].io= TERM0_IO;
-   term_if[index].done= TERM0_DONE;
-  }
-  if(index == 1){
-   term_if[index].io= TERM1_IO;
-   term_if[index].done= TERM1_DONE;
-  }
-  outportb(term_if[which].io+CFCR, CFCR_DLAB);             // CFCR_DLAB is 0x80
-  outportb(term_if[which].io+BAUDLO, LOBYTE(115200/9600)); // period of each of 9600 bauds  
-  outportb(term_if[which].io+BAUDHI, HIBYTE(115200/9600));
-  outportb(term_if[which].io+CFCR, CFCR_PEVEN|CFCR_PENAB|CFCR_7BITS);
-  outportb(term_if[which].io+IER, 0);
-  outportb(term_if[which].io+MCR, MCR_DTR|MCR_RTS|MCR_IENABLE);
-  for(i=0; i<LOOP/2; i++)asm("inb $0x80");
-  outportb(term_if[which].io+IER, IER_ERXRDY|IER_ETXRDY);  // enable TX & RX intr
-  for(i=0; i<LOOP/2; i++)asm("inb $0x80");
-  inportb(term_if[which].io); // clear key entered at PROCOMM screen
-}
 
 void Scheduler(void) {             // choose a cur_pid to run
    if( cur_pid > 0) return; // a user PID is already picked
@@ -180,7 +181,7 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
       }
    }
    
-   Scheduler(); // which may pick another proc
+   Scheduler(); //  may pick another proc
    Loader(pcb[cur_pid].TF_p); // load proc to run!
 }
 

@@ -94,7 +94,29 @@ void CarProc(void) {
    }
 }
 
+void TermProc(){ 
+   int my_pid, device;
+   char str[3];
+   int lines=0;
 
+  // get my PID and make a string from it (null-delimited)
+   my_pid = GetPid();
+   str[0] = my_pid / 10 + '0' ;
+   str[1] = my_pid % 10 + '0';
+   str[2] = '\0';
+
+   if(my_pid%2==0)
+     device = TERM0;
+   if(my_pid%2==1)
+     device = TERM1;
+   while(1){
+     if(lines%5 == 0) Write(device, "*-------------------------------------*");
+     Write(device, str);
+     Write(device, "Happy Holloween");
+     Sleep(3);
+   }
+     
+}
 
 
 

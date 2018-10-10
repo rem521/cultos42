@@ -95,7 +95,7 @@ void WriteISR(void){
      return;
    }
    
-   if(device == TERM0 | device == TERM1){
+   if(device == TERM0 || device == TERM1){
      if( device == TERM0){
        term= 0;
        //term_if[term].io=TERM0_IO;
@@ -105,8 +105,9 @@ void WriteISR(void){
        //term_if[term].io=TERM1_IO;
      }
      //Bzero((char *)&tx_wait_q, sizeof(q_t));
-     outportb(term_if[term].io, str);
-     tx_p == str[1];
+     outportb(term_if[term].io, (int)str);
+     str++;
+     term_if[term].tx_p = str;
      EnQ(cur_pid, &term_if[term].tx_wait_q);
      pcb[cur_pid].state=WAIT;
      cur_pid= -1;
@@ -186,7 +187,7 @@ void TermISR(int index){
    if(inportb(index + IIR) == IIR_TXRDY){
       TermTxISR(index);
    }
-   if(inportb(index + IIR) == IIR_RXDY){
+   if(inportb(index + IIR) == IIR_RXRDY){
       cons_printf("*");
    }
    outportb(PIC_CONTROL, DONE);
@@ -204,7 +205,7 @@ void TermTxISR(int index){
     EnQ(pid, &ready_q);
   }
   else{
-    outportb(term_if[i].io, term_if[i].tx_p)
+    outportb(term_if[i].io, *term_if[i].tx_p);
     term_if[i].tx_p++;
   }
 }
