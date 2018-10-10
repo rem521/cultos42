@@ -111,6 +111,7 @@ void TermProc(){
      device = TERM1;
    while(1){
      if(lines%5 == 0) Write(device, "==-------------------------------------==");
+     lines++;
      Write(device, str);
      Write(device, "Happy Holloween");
      Sleep(3);
