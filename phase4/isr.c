@@ -105,7 +105,8 @@ void WriteISR(void){
        //term_if[term].io=TERM1_IO;
      }
      //Bzero((char *)&tx_wait_q, sizeof(q_t));
-     outportb(term_if[term].io, (int)str);
+     //cons_printf("test: %c \n", str[0]);
+     outportb(term_if[term].io, str[0]);
      str++;
      term_if[term].tx_p = str;
      EnQ(cur_pid, &term_if[term].tx_wait_q);
@@ -188,7 +189,7 @@ void TermISR(int index){
       TermTxISR(index);
    }
    if(inportb(index + IIR) == IIR_RXRDY){
-      cons_printf("*");
+      cons_printf("+");
    }
    outportb(PIC_CONTROL, DONE);
    return;
