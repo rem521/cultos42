@@ -110,10 +110,10 @@ void TermProc(){
    if(my_pid%2==1)
      device = TERM1;
    while(1){
-    if(lines%5 == 0) Write(device, "=+*#$-------------------------------------$#*+=");
+    if(lines%5 == 0) Write(device, "=+*#$-------------------------------------$#*+=\n");
      lines++;
      Write(device, str);
-     Write(device, "Happy Holloween");
+     Write(device, "Happy Holloween\n");
      Sleep(3);
    }
      
