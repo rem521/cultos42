@@ -185,13 +185,13 @@ void SemPostISR(){
 
 
 void TermISR(int index){
-   if(inportb(index + IIR) == IIR_TXRDY){
+   if(inportb(term_if[index].done + IIR) == IIR_TXRDY){
       TermTxISR(index);
    }
-   if(inportb(index + IIR) == IIR_RXRDY){
-      cons_printf("+");
+   if(inportb(term_if[index].done + IIR) == IIR_RXRDY){
+      cons_printf("*");
    }
-   outportb(PIC_CONTROL, DONE);
+   outportb(PIC_CONTROL, term_if[index].done);
    return;
 }
 
