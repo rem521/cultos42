@@ -52,13 +52,14 @@ void InitKernel(void) {             // init and set up kernel!
    IVT_p = get_idt_base();   // get IVT location
 
    fill_gate( &IVT_p[TIMER], (int)TimerEntry, get_cs(), ACC_INTR_GATE, 0 ); // fill out IVT for timer
-   outportb(PIC_MASK, MASK);                   // mask out PIC for timer
 
    fill_gate(&IVT_p[SYSCALL], (int)SyscallEntry, get_cs(), ACC_INTR_GATE, 0);
    
    fill_gate(&IVT_p[TERM0], (int)Term0Entry, get_cs(), ACC_INTR_GATE, 0);
 
    fill_gate(&IVT_p[TERM1], (int)Term1Entry, get_cs(), ACC_INTR_GATE, 0); 
+
+   outportb(PIC_MASK, MASK);                   // mask out PIC for timer
 
    Bzero((char *)&ready_q, sizeof(q_t));                      // clear 2 queues
    Bzero((char *)&avail_q, sizeof(q_t));
