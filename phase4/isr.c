@@ -98,14 +98,10 @@ void WriteISR(void){
    if(device == TERM0 || device == TERM1){
      if( device == TERM0){
        term= 0;
-       //term_if[term].io=TERM0_IO;
      }
      if(device == TERM1){
        term= 1;
-       //term_if[term].io=TERM1_IO;
      }
-     //Bzero((char *)&tx_wait_q, sizeof(q_t));
-     //cons_printf("test: %c \n", str[0]);
      outportb(term_if[term].io, str[0]);
      str++;
      term_if[term].tx_p = str;
@@ -130,7 +126,6 @@ void WriteISR(void){
         }
         
         if( str[i] != 0x0A){
-          //cons_printf(" %c", str[i]);
           *video_p= str[i] + VGA_MASK;
           video_p++;
         }
@@ -198,8 +193,6 @@ void TermISR(int index){
 
 void TermTxISR(int index){
   int pid;
-  //if(index == TERM0) i=0;
-  //if(index == TERM1) i=1;
   if(term_if[index].tx_wait_q.size == 0) return;
   if(*term_if[index].tx_p == '\0'){
     pid=DeQ(&term_if[index].tx_wait_q);
