@@ -185,10 +185,10 @@ void SemPostISR(){
 
 
 void TermISR(int index){
-   if(inportb(term_if[index].done + IIR) == IIR_TXRDY){
+   if(inportb(term_if[index].io + IIR) == IIR_TXRDY){
       TermTxISR(index);
    }
-   if(inportb(term_if[index].done + IIR) == IIR_RXRDY){
+   if(inportb(term_if[index].io + IIR) == IIR_RXRDY){
       cons_printf("*");
    }
    outportb(PIC_CONTROL, term_if[index].done);
@@ -196,18 +196,18 @@ void TermISR(int index){
 }
 
 void TermTxISR(int index){
-  int i, pid;
-  if(index == TERM0) i=0;
-  if(index == TERM1) i=1;
-  if(term_if[i].tx_wait_q.size == 0) return;
-  if(term_if[i].tx_p == '\0'){
-    pid=DeQ(&term_if[i].tx_wait_q);
+  int pid;
+  //if(index == TERM0) i=0;
+  //if(index == TERM1) i=1;
+  if(term_if[index].tx_wait_q.size == 0) return;
+  if(term_if[index].tx_p == '\0'){
+    pid=DeQ(&term_if[index].tx_wait_q);
     pcb[pid].state= READY;
     EnQ(pid, &ready_q);
   }
   else{
-    outportb(term_if[i].io, *term_if[i].tx_p);
-    term_if[i].tx_p++;
+    outportb(term_if[index].io, *term_if[index].tx_p);
+    term_if[index].tx_p++;
   }
 }
 
