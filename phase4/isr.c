@@ -109,6 +109,7 @@ void WriteISR(void){
      outportb(term_if[term].io, str[0]);
      str++;
      term_if[term].tx_p = str;
+     //Block current proc
      EnQ(cur_pid, &term_if[term].tx_wait_q);
      pcb[cur_pid].state=WAIT;
      cur_pid= -1;
