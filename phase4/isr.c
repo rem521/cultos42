@@ -102,7 +102,7 @@ void WriteISR(void){
      if(device == TERM1){
        term= 1;
      }
-     outportb(term_if[term].io, str[0]);
+     outportb(term_if[term].io, *str);
      str++;
      term_if[term].tx_p = str;
      //Block current proc
