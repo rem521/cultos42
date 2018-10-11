@@ -201,7 +201,7 @@ void TermTxISR(int index){
   //if(index == TERM0) i=0;
   //if(index == TERM1) i=1;
   if(term_if[index].tx_wait_q.size == 0) return;
-  if(term_if[index].tx_p == '\0'){
+  if(*term_if[index].tx_p == '\0'){
     pid=DeQ(&term_if[index].tx_wait_q);
     pcb[pid].state= READY;
     EnQ(pid, &ready_q);
