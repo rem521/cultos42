@@ -143,6 +143,9 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
       case WRITE:
         WriteISR();
         break;
+      case READ:
+        ReadISR();
+        break;
       case TIMER:
         TimerISR();
         break;

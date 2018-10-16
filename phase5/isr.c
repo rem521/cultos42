@@ -137,6 +137,27 @@ void WriteISR(void){
    }
 }
 
+void ReadISR(){
+   int device;
+   char *str;
+   int term;
+   
+   device = pcb[cur_pid].TF_p->ebx;
+   str =(char *) pcb[cur_pid].TF_p->ecx;
+   
+   if( device == TERM0 ){
+     term= 0;
+   }
+   if( device == TERM1){
+     term= 1;
+   }
+   term_if[term].rx_p = str;
+   EnQ(cur_pid, &term_if[term].rx_wait_q);
+   pcb[cur_pid].state=WAIT;
+   cur_pid= -1;
+
+}
+
 void SemInitISR(){
   int id;
   id= DeQ(&sem_q);
@@ -187,7 +208,7 @@ void TermISR(int index){
       TermTxISR(index);
    }
    if( inport == IIR_RXRDY){
-      cons_printf("*");
+      TermRxISR(index);
    }
    outportb(PIC_CONTROL, term_if[index].done); 
    return;
@@ -205,6 +226,15 @@ void TermTxISR(int index){
     outportb(term_if[index].io, *term_if[index].tx_p);
     term_if[index].tx_p++;
   }
+}
+
+void TermRxISR(int index){
+  int pid;
+  char inport;
+  inport = (char)inportb(term_if[index].io + IIR);
+  
+
+
 }
 
 

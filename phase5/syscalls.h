@@ -9,6 +9,8 @@ void SetVideo(int, int); //might be wrong
 
 void Write(int, char *); 
 
+void Read(int, char *);
+
 int SemInit(int);
 
 void SemWait(int);
