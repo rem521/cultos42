@@ -113,7 +113,7 @@ void TermProc(){
    while(1){
         Write(device, str);
         Write(device, "enter: ");
-        Read(evice, buff);
+        Read(device, buff);
         Write(devce, buff);
         //Sleep(3);
    }

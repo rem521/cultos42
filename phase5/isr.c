@@ -236,12 +236,14 @@ void TermRxISR(int index){
     outportb(term_if[index].io, inport);
     if(term_if[index].rx_wait_q.size != 0){
      //append
+     *term_if[index].rx_p = inport;
      term_if[index].rx_p++;
     }
     return;
   }
   if(term_if[index].rx_wait_q.size != 0){
     //delimit
+    *term_if[index].rx_p = inport;
     pid=DeQ(&term_if[index].rx_wait_q);
     pcb[pid].state= READY;
     EnQ(pid, &ready_q);
