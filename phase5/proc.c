@@ -98,6 +98,7 @@ void TermProc(){
    int my_pid, device;
    char str[3];
    int lines=0;
+   char buff[BUFF_SIZE];
 
   // get my PID and make a string from it (null-delimited)
    my_pid = GetPid();
@@ -110,11 +111,10 @@ void TermProc(){
    if(my_pid%2==1)
      device = TERM1;
    while(1){
-    if(lines%5 == 0) Write(device, "@-'-,-- @-'-,-- @-'-,-- @-'-,-- @-'-,--\r\n");
-     lines++;
-     Write(device, str);
-     Write(device, "  Happy Holloween! Give trick-o-treater toothbrush and dental floss, instead!\r\n");
-     Sleep(3);
+        Write(device, str);
+        Write(device, "enter: "
+        Write(devce, buff);
+        //Sleep(3);
    }
      
 }
