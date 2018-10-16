@@ -97,7 +97,6 @@ void CarProc(void) {
 void TermProc(){ 
    int my_pid, device;
    char str[3];
-   int lines=0;
    char buff[BUFF_SIZE];
 
   // get my PID and make a string from it (null-delimited)
@@ -114,7 +113,8 @@ void TermProc(){
         Write(device, str);
         Write(device, "enter: ");
         Read(device, buff);
-        Write(devce, buff);
+        Write(device, "\r\n");
+        Write(device, buff);
         //Sleep(3);
    }
      
