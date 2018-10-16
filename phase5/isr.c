@@ -231,8 +231,8 @@ void TermTxISR(int index){
 void TermRxISR(int index){
   int pid;
   char inport;
-  inport = (char)inportb(term_if[index].io + IIR);
-  if(inport != '\n' || inport != '\r'){
+  inport = (char)inportb(term_if[index].io);
+  if(inport != '\n' && inport != '\r'){
     outportb(term_if[index].io, inport);
     if(term_if[index].rx_wait_q.size != 0){
      //append

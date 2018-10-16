@@ -111,10 +111,11 @@ void TermProc(){
      device = TERM1;
    while(1){
         Write(device, str);
-        Write(device, "enter: ");
+        Write(device, " enter > ");
         Read(device, buff);
-        Write(device, "\r\n");
+        Write(device, "\r\nentered: ");
         Write(device, buff);
+        Write(device, "\r\n");
         //Sleep(3);
    }
      
