@@ -235,11 +235,17 @@ void TermRxISR(int index){
   if(inport == '\n' || inport '\r'){
     outportb(term_if[index].io, inport);
     if(term_if[index].rx_wait_q.size != 0){
-      term_if[index].rx_p++;
+     //append
+     term_if[index].rx_p++;
     }
     return;
   }
-  
+  if(term_if[index].rx_wait_q.size != 0){
+    //delimit
+    pid=DeQ(&term_if[index].rx_wait_q);
+    pcb[pid].state= READY;
+    EnQ(pid, &ready_q);
+  }
 
 }
 
