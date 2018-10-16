@@ -15,8 +15,10 @@
 #define PROC_MAX 20          // max number of processes
 #define Q_SIZE 20            // queuing capacity
 #define STACK_SIZE 4096      // process stack in bytes
+#define BUFF_SIZE 101
 
 #define STDOUT 1
+#define READ 3
 #define WRITE 4
 #define GETPID 20
 #define SETVIDEO 100

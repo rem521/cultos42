@@ -40,8 +40,8 @@ typedef struct{
 
 typedef struct{
 	int io, done;
-	char *tx_p;
-	q_t tx_wait_q;
+	char *tx_p, *rx_p;
+	q_t tx_wait_q, rx_wait_q;
 }term_if_t;
 
 
