@@ -239,14 +239,14 @@ void TermRxISR(int index){
   inport = (char)inportb(term_if[index].io);
   if(inport != '\n' && inport != '\r'){
     outportb(term_if[index].io, inport);
-    if(term_if[index].rx_wait_q.size != 0){
+    if(QisEmpty(&term_if[index].rx_wait_q)){
      //append
      *term_if[index].rx_p = inport;
      term_if[index].rx_p++;
     }
     return;
   }
-  if(term_if[index].rx_wait_q.size != 0){
+  if(QisEmpty(&term_if[index].rx_wait_q)){
     //delimit
     *term_if[index].rx_p = '\0';
     pid=DeQ(&term_if[index].rx_wait_q);
