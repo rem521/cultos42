@@ -70,7 +70,7 @@ void InitKernel(void) {             // init and set up kernel!
 
    }
 
-   for(i=0; i<Q_SIZE; i++) {
+   for(i=0; i<SEM_MAX; i++) {
       EnQ(i, &sem_q);
 
    }

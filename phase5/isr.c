@@ -165,36 +165,41 @@ void SemInitISR(){
      cons_printf("No more semaphores :( ");
      breakpoint();
   }
-  Bzero((char *)&sem[id].wait_q, Q_SIZE);
+  Bzero((char *)&sem[id].wait_q, sizeof(sem_t));
   sem[id].passes=pcb[cur_pid].TF_p->ebx;
   pcb[cur_pid].TF_p->ecx= id;
   *(HOME_POS + 21 * 80) = sem[id].passes + '0' + VGA_MASK;  
 }
 
 void SemWaitISR(){
-  if(sem[car_sem].passes>0){
-    sem[car_sem].passes--;
-    *(HOME_POS + 21 * 80) = sem[car_sem].passes + '0' + VGA_MASK;
+  int semID;
+  semID = pcb[cur_pid].TF_p->ebx;
+  if(sem[semID].passes>0){
+    sem[semID].passes--;
+    *(HOME_POS + 21 * 80) = sem[semID].passes + '0' + VGA_MASK;
     return;
   }
-  EnQ(cur_pid, &sem[car_sem].wait_q);
+  EnQ(cur_pid, &sem[semID].wait_q);
   pcb[cur_pid].state=WAIT;
   cur_pid=-1;
-  *(HOME_POS + 21 * 80) = sem[car_sem].passes + '0' + VGA_MASK;
+  *(HOME_POS + 21 * 80) = sem[semID].passes + '0' + VGA_MASK;
   return;
 }
 
-void SemPostISR(){
+void SemPostISR(){  
   int pid;
-  if(sem[car_sem].wait_q.size == 0){
-    sem[car_sem].passes++;
-    *(HOME_POS + 21 * 80) = sem[car_sem].passes + '0' + VGA_MASK;
+  int semID;
+  semID = pcb[cur_pid].TF_p->ebx;
+
+  if(QisEmpty(&sem[semID].wait_q)){
+    sem[semID].passes++;
+    *(HOME_POS + 21 * 80) = sem[semID].passes + '0' + VGA_MASK;
     return;
   }
-  pid=DeQ(&sem[car_sem].wait_q);
+  pid=DeQ(&sem[semID].wait_q);
   pcb[pid].state= READY;
   EnQ(pid , &ready_q);
-  *(HOME_POS + 21 * 80) = sem[car_sem].passes + '0' + VGA_MASK;
+  *(HOME_POS + 21 * 80) = sem[semID].passes + '0' + VGA_MASK;
   return;
 
 
@@ -216,7 +221,7 @@ void TermISR(int index){
 
 void TermTxISR(int index){
   int pid;
-  if(term_if[index].tx_wait_q.size == 0) return;
+  if(QisEmpty(&term_if[index].tx_wait_q)) return;
   if(*term_if[index].tx_p == '\0'){
     pid=DeQ(&term_if[index].tx_wait_q);
     pcb[pid].state= READY;

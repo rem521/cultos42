@@ -17,7 +17,7 @@ extern unsigned short *video_p; //PC VGA video pointer
 
 extern sem_t sem[SEM_MAX];
 extern q_t sem_q;
-extern car_sem;
+extern int car_sem;
 
 extern term_if_t term_if[TERM_MAX];
 
