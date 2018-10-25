@@ -41,5 +41,7 @@
 #define TERM0_DONE 0x63
 #define TERM1_DONE 0x64
 
+#define SIGNAL 48
+#define SIGINT 2
 
 #endif

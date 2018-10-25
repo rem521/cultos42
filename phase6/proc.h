@@ -13,5 +13,9 @@ void CarProc();
 
 void TermProc();
 
+void Ouch(int);
+
+void Wrapper(func_p_t);
+
 #endif
 

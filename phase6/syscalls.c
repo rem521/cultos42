@@ -2,6 +2,7 @@
 // calls to OS services
 
 #include "constants.h"
+#include "types.h"
 
 void Sleep(int sec) {       // # of seconds to sleep
    asm("movl %0, %%eax;     // service #162 (SLEEP)
@@ -92,6 +93,8 @@ void SemPost(int id){
 	  : "eax", "ebx");
 }
 
+void Signal(int sig_num, func_p_t *p){
 
+}
 
 

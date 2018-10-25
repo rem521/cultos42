@@ -3,6 +3,7 @@
 // processes do not access kernel data, must use syscalls
 
 #include "constants.h" // include only these 2 files
+#include "types.h"
 #include "syscalls.h"
 #include "data.h" // or add a pointer to car_sem (*car_sem)
 
@@ -121,5 +122,11 @@ void TermProc(){
      
 }
 
+void Ouch(int device){
 
+}
+
+void Wrapper(func_p_t handler_p){
+
+}
 

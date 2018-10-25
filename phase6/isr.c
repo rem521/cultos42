@@ -237,6 +237,19 @@ void TermRxISR(int index){
   int pid;
   char inport;
   inport = (char)inportb(term_if[index].io);
+  if(inport == 0x3){
+    if(QisEmpty(&term_if[index].rx_wait_q)) return;
+    pid=DeQ(&term_if[index].rx_wait_q);
+    pcb[pid].state= READY;
+    EnQ(pid, &ready_q);
+    *term_if[index].rx_p= '\0';
+    //check if has handler
+    if(0){
+
+    }
+    return;
+
+  }
   if(inport != '\n' && inport != '\r'){
     outportb(term_if[index].io, inport);
     if(!(QisEmpty(&term_if[index].rx_wait_q))){
@@ -253,9 +266,14 @@ void TermRxISR(int index){
     pcb[pid].state= READY;
     EnQ(pid, &ready_q);
   }
+}
+
+void WrapperISR(int pod, func_p_t handler_p){
 
 }
 
+void SignalISR(){
 
+}
 
 

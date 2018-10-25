@@ -31,4 +31,8 @@ void TermTxISR(int);
 
 void TermRxISR(int);
 
+void WrapperISR(int , func_p_t);
+
+void SignalISR();
+
 #endif
