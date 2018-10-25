@@ -95,6 +95,17 @@ void CarProc(void) {
    }
 }
 
+void Ouch(int device){
+  Write(device, "Ouch, dont touch that!\n\r");
+}
+
+void Wrapper(func_p_t handler_p){
+  asm("pushal");
+  handler_p();
+  asm("popal");
+  asm("movl %%ebp, %%esp; popl %%ebp; ret $4" ::);
+}
+
 void TermProc(){ 
    int my_pid, device;
    char str[3];
@@ -110,6 +121,9 @@ void TermProc(){
      device = TERM0;
    if(my_pid%2==1)
      device = TERM1;
+
+   //Signal(SIGINT, (func_p_t)Wrapper((func_p_t)Ouch(device)));
+
    while(1){
         Write(device, str);
         Write(device, " enter > ");
@@ -122,11 +136,7 @@ void TermProc(){
      
 }
 
-void Ouch(int device){
 
-}
 
-void Wrapper(func_p_t handler_p){
 
-}
 
