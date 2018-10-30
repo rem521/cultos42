@@ -91,7 +91,7 @@ void WriteISR(void){
    device = pcb[cur_pid].TF_p->ebx;
    str =(char *) pcb[cur_pid].TF_p->ecx;
    
-   if( str == '\0'){
+   if( *str == '\0'){
      return;
    }
    
