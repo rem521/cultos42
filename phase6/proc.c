@@ -131,7 +131,7 @@ void TermProc(){
    if(my_pid%2==1)
      device = TERM1;
 
-   Signal(SIGINT, &Ouch);
+   Signal(SIGINT, (func_p_t *)Ouch);
 
    while(1){
         Write(device, str);
