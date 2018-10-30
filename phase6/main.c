@@ -166,6 +166,7 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
          break;
       case SIGNAL:
          SignalISR();
+         break;
       default:
         cons_printf("Entry issue");
         breakpoint();

@@ -269,15 +269,26 @@ void TermRxISR(int index){
 }
 
 void WrapperISR(int pid, func_p_t handler_p){
-  func_p_t tmp;
-  tmp=pcb[pid].sigint_handler_p;
+  TF_t tmp;
+  unsigned int *handle, *eip;
+  handle = &pcb[pid].TF_p->cs;
+  eip = &pcb[pid].TF_p->efl;
+  tmp = *pcb[pid].TF_p;
+  (int)pcb[pid].TF_p -= 8;
+  *pcb[pid].TF_p= tmp;
+  
+  *handle = (unsigned int) handler_p;
+  *eip = (unsigned int) tmp.eip;
+     
+  pcb[pid].TF_p->eip = (unsigned) Wrapper;  
+
 }
 
 void SignalISR(){
    int signalNum;
    func_p_t func;
    signalNum = pcb[cur_pid].TF_p->ebx;
-   func =(func_p_t ) pcb[cur_pid].TF_p->ecx;
+   func =(func_p_t) pcb[cur_pid].TF_p->ecx;
    pcb[cur_pid].sigint_handler_p= func; 
 }
 
