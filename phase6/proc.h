@@ -13,7 +13,7 @@ void CarProc();
 
 void TermProc();
 
-void Ouch(int);
+void Ouch();
 
 void Wrapper(func_p_t);
 

@@ -95,7 +95,16 @@ void CarProc(void) {
    }
 }
 
-void Ouch(int device){
+void Ouch(){
+  int device;
+  int my_pid;
+  my_pid=GetPid();
+  if(my_pid%2==0)
+    device = TERM0;
+  if(my_pid%2==1)
+    device = TERM1;
+
+
   Write(device, "Ouch, dont touch that!\n\r");
 }
 
@@ -122,7 +131,7 @@ void TermProc(){
    if(my_pid%2==1)
      device = TERM1;
 
-   //Signal(SIGINT, (func_p_t)Wrapper((func_p_t)Ouch(device)));
+   Signal(SIGINT, &Ouch);
 
    while(1){
         Write(device, str);

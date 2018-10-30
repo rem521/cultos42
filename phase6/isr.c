@@ -144,7 +144,7 @@ void ReadISR(){
    
    device = pcb[cur_pid].TF_p->ebx;
    str =(char *) pcb[cur_pid].TF_p->ecx;
-   
+ 
    if( device == TERM0 ){
      term= 0;
    }
@@ -244,8 +244,8 @@ void TermRxISR(int index){
     EnQ(pid, &ready_q);
     *term_if[index].rx_p= '\0';
     //check if has handler
-    if(0){
-
+    if(pcb[pid].sigint_handler_p != NULL){
+      WrapperISR(pid, pcb[pid].sigint_handler_p);
     }
     return;
 
@@ -268,12 +268,16 @@ void TermRxISR(int index){
   }
 }
 
-void WrapperISR(int pod, func_p_t handler_p){
-
+void WrapperISR(int pid, func_p_t handler_p){
+  func_p_t tmp;
+  tmp=pcb[pid].sigint_handler_p;
 }
 
 void SignalISR(){
-
+   int signalNum;
+   func_p_t func;
+   signalNum = pcb[cur_pid].TF_p->ebx;
+   func =(func_p_t ) pcb[cur_pid].TF_p->ecx;
+   pcb[cur_pid].sigint_handler_p= func; 
 }
-
 
