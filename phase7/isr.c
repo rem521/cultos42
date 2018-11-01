@@ -295,3 +295,8 @@ void SignalISR(){
 void GetPpidISR(){
   pcb[cur_pid].TF_p->ebx = pcb[cur_pid].ppid; 
 }
+
+
+
+
+

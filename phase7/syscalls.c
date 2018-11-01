@@ -116,3 +116,15 @@ int GetPpid(void) {
 
    return pid;
 }
+
+int Fork(){
+  
+}
+
+
+
+
+
+
+
+
