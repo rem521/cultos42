@@ -118,7 +118,7 @@ int GetPpid(void) {
 }
 
 int Fork(){
-  
+  return 0;  
 }
 
 

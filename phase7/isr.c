@@ -296,6 +296,25 @@ void GetPpidISR(){
   pcb[cur_pid].TF_p->ebx = pcb[cur_pid].ppid; 
 }
 
+void ForkISR(){
+  int child;
+  child=DeQ(&avail_q);
+  pcb[cur_pid].TF_p->ebx = child;
+  if(child == -1){
+    cons_printf("Kernel Panic: no more process!");
+    return;
+  }
+  
+  pcb[child]=pcb[cur_pid];
+  pcb[child].state=READY;
+  EnQ(child, &ready_q);
+  pcb[child].ppid=cur_pid;
+
+  
+
+
+}
+
 
 
 

@@ -69,19 +69,9 @@ int StrCmp(char *s1, char *s2){
 
 void MemCpy(char *dst, char *src, int size){
   int i;
-  //if source is higher start from top
-  if( &src > &dst){
-    for(i=size-1; i>=0, i--){
-      dst[i]=src[i];
-    }
-    return;
+  for(i=0; i<size; i++){
+    *dst++ = *src++;
   }
-  //if dest is higher start from the bottom
-  if( &dst > &src){
-    
-  }
-  return;
-
 }
 
 

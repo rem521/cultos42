@@ -6,6 +6,7 @@
 #include "types.h"
 #include "syscalls.h"
 #include "data.h" // or add a pointer to car_sem (*car_sem)
+#include "lib.h"
 
 void InitProc(void) {
    int i;
@@ -115,8 +116,30 @@ void Wrapper(func_p_t handler_p){
   asm("movl %%ebp, %%esp; popl %%ebp; ret $4" ::);
 }
 
+void ChildCode(){
+  int my_pid, device;
+  int ppid;
+  char str[3];
+  my_pid = GetPid();
+  ppid = GetPpid();
+  str[0] = my_pid / 10 + '0' ;
+  str[1] = my_pid % 10 + '0';
+  str[2] = '\0';
+  if(ppid%2==0)
+     device = TERM0;
+  if(ppid%2==1)
+     device = TERM1;
+  while(1){
+    Write(device,"I'm child PID");
+    Write(device, str);
+    Write(device, "\r\n");
+    Sleep(3);
+  }
+
+}
+
 void TermProc(){ 
-   int my_pid, device;
+   int my_pid, child, device;
    char str[3];
    char buff[BUFF_SIZE];
 
@@ -134,15 +157,23 @@ void TermProc(){
    Signal(SIGINT, (func_p_t *)Ouch);
 
    while(1){
+        Sleep(1);
         Write(device, str);
         Write(device, " enter > ");
         Read(device, buff);
         Write(device, "\r\nentered: ");
         Write(device, buff);
         Write(device, "\r\n");
-        //Sleep(3);
-   }
-     
+        if(StrCmp(buff, "fork")){
+          child = Fork();
+          if(child == -1){
+            Write(device, "OS failed to fork!");
+          }
+          if(child == 0){
+            ChildCode();
+          }
+        }
+   }     
 }
 
 
