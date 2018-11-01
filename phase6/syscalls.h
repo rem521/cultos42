@@ -5,7 +5,7 @@ void Sleep(int);
 
 int GetPid(void);
 
-void SetVideo(int, int); //might be wrong
+void SetVideo(int, int);
 
 void Write(int, char *); 
 
