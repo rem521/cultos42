@@ -118,7 +118,17 @@ int GetPpid(void) {
 }
 
 int Fork(){
-  return 0;  
+   int pid;
+
+   asm("movl %1, %%eax;     // service #20 (GETPID)
+        int $128;           // interrupt!
+        movl %%ebx, %0"     // after, copy eax to variable 'pid'
+       : "=g" (pid)         // output
+       : "g" (FORK)       // input
+       : "eax", "ebx"       // used registers
+    );
+
+   return pid;  
 }
 
 
