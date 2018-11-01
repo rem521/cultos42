@@ -167,6 +167,12 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
       case SIGNAL:
          SignalISR();
          break;
+      case FORK:
+         ForkISR();
+         break;
+      case GETPPID:
+         GetPpidISR();
+         break;
       default:
         cons_printf("Entry issue");
         breakpoint();
