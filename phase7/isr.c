@@ -323,10 +323,10 @@ void ForkISR(){
   (int)pcb[child].TF_p->esi -= distance;
   (int)pcb[child].TF_p->edi -= distance;
   
-  p=(int *)pcb[cur_proc].TF_p->ebp;
+  p=(int *)pcb[cur_pid].TF_p->ebp;
   while(*p!=0){
-    (int) p= (int)p-distance;
-    *p=pcb[cur_proc].TF_p->ebp;
+    (int) p= (int)p+distance;
+    *p=pcb[cur_pid].TF_p->ebp;
   }
     
 }
