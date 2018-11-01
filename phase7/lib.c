@@ -57,3 +57,33 @@ void EnQ(int pid, q_t *p) {
 		//p->q[p->tail] = pid;
 	}
 }
+
+int StrCmp(char *s1, char *s2){
+  int i=0;
+  while(1){
+    if(s1[i]!=s2[i]) return 0;
+    if(s1[i]=='\0' && s2[i]=='\0') return 1;
+    i++;
+  }
+}
+
+void MemCpy(char *dst, char *src, int size){
+  int i;
+  //if source is higher start from top
+  if( &src > &dst){
+    for(i=size-1; i>=0, i--){
+      dst[i]=src[i];
+    }
+    return;
+  }
+  //if dest is higher start from the bottom
+  if( &dst > &src){
+    
+  }
+  return;
+
+}
+
+
+
+
