@@ -324,11 +324,11 @@ void ForkISR(){
   (int)pcb[child].TF_p->edi -= distance;
   
   p=(int *)pcb[cur_pid].TF_p->ebp;  
-  while(*p!=0){
+  while(*p!=NULL){
     (int) p= (int)p+distance;
-    *p=pcb[cur_pid].TF_p->ebp;
+    p=(int *)pcb[cur_pid].TF_p->ebp;
   }
-  breakpoint();  
+    
 }
 
 
