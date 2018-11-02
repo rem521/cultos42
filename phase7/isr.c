@@ -299,7 +299,7 @@ void GetPpidISR(){
 void ForkISR(){
   int child;
   int distance;
-  int *p, *tmp;
+  int *p; // *tmp;
   child=DeQ(&avail_q);
   pcb[cur_pid].TF_p->ebx = child;
   if(child == -1){
@@ -323,12 +323,12 @@ void ForkISR(){
   (int)pcb[child].TF_p->esi += distance;
   (int)pcb[child].TF_p->edi += distance;
   
-  p=(int *)pcb[cur_pid].TF_p->ebp;  
+  p=(int *)pcb[child].TF_p->ebp;  
   breakpoint();
   while(*p!=0){
-    //tmp=p;
-    (int) p= (int)p-distance;
-    //*p=*tmp;
+   //tmp=p;
+    *p =  *p - distance;
+    p =(int *) *p;
     //p=(int)*p;
     //(int *)pcb[cur_pid].TF_p->ebp;
   }
