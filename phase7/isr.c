@@ -299,7 +299,7 @@ void GetPpidISR(){
 void ForkISR(){
   int child;
   int distance;
-  int *p;
+  int *p, *tmp;
   child=DeQ(&avail_q);
   pcb[cur_pid].TF_p->ebx = child;
   if(child == -1){
@@ -315,18 +315,22 @@ void ForkISR(){
 
   //move stacj stuff
   MemCpy((char *)stack[child], (char *)stack[cur_pid], STACK_SIZE);  
-  distance=(unsigned)&stack[cur_pid]-(unsigned)&stack[child];
-  (int)pcb[child].TF_p -= distance;
+  distance=(unsigned)&stack[child]-(unsigned)&stack[cur_pid];
+  (int)pcb[child].TF_p += distance;
   (int)pcb[child].TF_p->ebx=0;
-  (int)pcb[child].TF_p->esp -= distance;
-  (int)pcb[child].TF_p->ebp -= distance;
-  (int)pcb[child].TF_p->esi -= distance;
-  (int)pcb[child].TF_p->edi -= distance;
+  (int)pcb[child].TF_p->esp += distance;
+  (int)pcb[child].TF_p->ebp += distance;
+  (int)pcb[child].TF_p->esi += distance;
+  (int)pcb[child].TF_p->edi += distance;
   
   p=(int *)pcb[cur_pid].TF_p->ebp;  
-  while(*p!=NULL){
-    (int) p= (int)p+distance;
-    p=(int *)pcb[cur_pid].TF_p->ebp;
+  breakpoint();
+  while(*p!=0){
+    //tmp=p;
+    (int) p= (int)p-distance;
+    //*p=*tmp;
+    //p=(int)*p;
+    //(int *)pcb[cur_pid].TF_p->ebp;
   }
     
 }
