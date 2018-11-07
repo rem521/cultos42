@@ -130,9 +130,10 @@ void ChildCode(){
   if(ppid%2==1)
      device = TERM1;
   while(1){
+    Write(device, "\r\n");
     Write(device,"I'm child PID");
     Write(device, str);
-    Write(device, "\r\n");
+   //Write(device, "\r\n");
     Sleep(3);
   }
 
@@ -154,7 +155,7 @@ void TermProc(){
    if(my_pid%2==1)
      device = TERM1;
 
-   Signal(SIGINT, (func_p_t *)Ouch);
+   Signal(SIGINT, Ouch);
 
    while(1){
         Sleep(1);

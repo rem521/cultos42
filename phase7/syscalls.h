@@ -17,7 +17,7 @@ void SemWait(int);
 
 void SemPost(int);
 
-void Signal(int , func_p_t *);
+void Signal(int , func_p_t);
 
 int GetPpid(void);
 

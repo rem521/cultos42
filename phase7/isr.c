@@ -271,8 +271,8 @@ void TermRxISR(int index){
 void WrapperISR(int pid, func_p_t handler_p){
   TF_t tmp;
   unsigned int *handle, *eip;
-  handle = &pcb[pid].TF_p->cs;
-  eip = &pcb[pid].TF_p->efl;
+  eip = &pcb[pid].TF_p->cs;
+  handle = &pcb[pid].TF_p->efl;
   tmp = *pcb[pid].TF_p;
   (int)pcb[pid].TF_p -= 8;
   *pcb[pid].TF_p= tmp;
@@ -324,7 +324,7 @@ void ForkISR(){
   (int)pcb[child].TF_p->edi += distance;
   
   p=(int *)pcb[child].TF_p->ebp;  
-  breakpoint();
+  //breakpoint();
   while(*p!=0){
    //tmp=p;
     *p =  *p - distance;
