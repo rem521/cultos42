@@ -140,11 +140,24 @@ void ChildCode(){
 }
 
 void ChldHandler(){
+  int my_pid, device;
+  char str[3];
+  my_pid = GetPid();
+  str[0] = my_pid / 10 + '0' ;
+  str[1] = my_pid % 10 + '0';
+  str[2] = '\0';
 
+  if(my_pid%2==0)
+    device = TERM0;
+  if(my_pid%2==1)
+    device = TERM1;
+  //Wait(); 
+  //Write calls from Wait
+  
 }
 
 void TermProc(){ 
-   int my_pid, child, device;
+   int my_pid, child, device, fg, ec;
    char str[3];
    char buff[BUFF_SIZE];
 

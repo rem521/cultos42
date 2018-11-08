@@ -174,6 +174,12 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
       case GETPPID:
          GetPpidISR();
          break;
+      case WAITCALL:
+         WaitISR();
+         break;
+      case EXIT:
+         ExitISR();
+         break;
       default:
         cons_printf("Entry issue");
         breakpoint();

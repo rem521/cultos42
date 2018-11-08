@@ -148,7 +148,7 @@ int Wait(int *ec_p){
        int $128
        movl %%ecx, %0;" 
        : "=g" (id)
-       : "g" (WAIT), "g" ((int)ec_p)
+       : "g" (WAITCALL), "g" ((int)ec_p)
        : "eax", "ebx", "ecx");
   return id;  
 }

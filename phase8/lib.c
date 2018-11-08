@@ -21,6 +21,16 @@ int QisFull(q_t *p) { // return 1 if full, else 0
 	else return 0;
 }
 
+int InQ(q_t *p, int id){
+  int i= p->head;
+  while(1){
+    i=i%Q_SIZE;
+    if(p->q[i]==id) return 1;
+    if(i==p->tail) return 0;
+    i++;
+  }
+}
+
 // dequeue, 1st integer in queue
 // if queue empty, return -1
 int DeQ(q_t *p) { // return -1 if q[] is empty
