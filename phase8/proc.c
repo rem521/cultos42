@@ -182,15 +182,24 @@ void TermProc(){
         Write(device, "\r\nentered: ");
         Write(device, buff);
         Write(device, "\r\n");
-        if(StrCmp(buff, "fork")){
-          child = Fork();
-          if(child == -1){
-            Write(device, "OS failed to fork!");
-          }
-          if(child == 0){
+        if(StrCmp(buff, "fork")) fg=1;
+        else if(StrCmp(buff, "fork&")) fg=0;
+        else continue;
+        if(fg==1) Signal(SIGCHLD, ChldHandler);
+        child=Fork();
+        switch(child){
+          case -1:
+            Write(device, "OS failed to fork!\n\r");
+            break;
+          case 0:
             ChildCode();
-          }
-        }
+          default:
+            Sleep(my_pi * 2);
+            if(fg==1){
+              //Wait();
+              //Write();
+            }
+         }
    }     
 }
 

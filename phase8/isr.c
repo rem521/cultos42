@@ -289,7 +289,10 @@ void SignalISR(){
    func_p_t func;
    signalNum = pcb[cur_pid].TF_p->ebx;
    func =(func_p_t) pcb[cur_pid].TF_p->ecx;
-   pcb[cur_pid].sigint_handler_p= func; 
+   if(signalNum==SIGCHLD)
+     pcb[cur_pid].sigchld_handler_p=func;
+   if(signalNum==SIGINT)
+     pcb[cur_pid].sigint_handler_p= func; 
 }
 
 void GetPpidISR(){
@@ -336,7 +339,17 @@ void ForkISR(){
 }
 
 void ExitISR(){
-
+  int ppid, ec, *ec_p;
+  ec = pcb[cur_pid].TF_p->ebx;
+  ppid= pcb[cur_pid].ppid;
+  if(!InQ(&wait_q,ppid)){
+    pcb[cur_pid].state=ZOMBIE;
+    cur_pid=-1;
+    if(pcb[ppid].sigchld_handler_p != NULL)
+      WapperISR(pcb[ppid].sigchld_handler_p, ppid);
+    return;
+  }
+  
 }
 
 void WaitISR(){
