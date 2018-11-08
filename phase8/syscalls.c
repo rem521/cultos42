@@ -131,7 +131,27 @@ int Fork(){
    return pid;  
 }
 
+void Exit(int ec){
+   asm("movl %0, %%eax;     // service #162 (SLEEP)
+        movl %1, %%ebx;     // sleep period in ticks
+        int $128"
+       :
+       : "g" (EXIT), "g" (ec)
+       : "eax", "ebx"       // used registers
+       );
+}
 
+int Wait(int *ec_p){
+  int id;
+  asm("movl %1, %%eax;
+       movl %2, %%ebx;
+       int $128
+       movl %%ecx, %0;" 
+       : "=g" (id)
+       : "g" (WAIT), "g" ((int)ec_p)
+       : "eax", "ebx", "ecx");
+  return id;  
+}
 
 
 

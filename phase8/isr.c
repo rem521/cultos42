@@ -335,5 +335,11 @@ void ForkISR(){
     
 }
 
+void ExitISR(){
 
+}
+
+void WaitISR(){
+
+}
 

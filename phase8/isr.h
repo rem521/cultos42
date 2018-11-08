@@ -38,4 +38,10 @@ void SignalISR();
 void GetPpidISR(void);
 
 void ForkISR(void);
+
+void WaitISR();
+
+void ExitISR();
+
+
 #endif

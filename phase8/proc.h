@@ -19,5 +19,7 @@ void Wrapper(func_p_t);
 
 void ChildCode(void);
 
+void ChldHandler();
+
 #endif
 

@@ -12,7 +12,7 @@
 
 // kernel data are all here:
 int cur_pid;                        // current running PID; if -1, none selected
-q_t ready_q, avail_q, sem_q;               // avail PID and those created/ready to run
+q_t ready_q, avail_q, sem_q, wait_q;               // avail PID and those created/ready to run
 pcb_t pcb[PROC_MAX];                // Process Control Blocks
 char stack[PROC_MAX][STACK_SIZE];   // process runtime stacks
 int sys_ticks;
@@ -64,6 +64,7 @@ void InitKernel(void) {             // init and set up kernel!
    Bzero((char *)&ready_q, sizeof(q_t));                      // clear 2 queues
    Bzero((char *)&avail_q, sizeof(q_t));
    Bzero((char *)&sem_q, sizeof(q_t));
+   Bzero((char *)&wait_q, sizeof(q_t));
    
    for(i=0; i<Q_SIZE; i++) {    // add all avail PID's to the queue
       EnQ(i, &avail_q); 

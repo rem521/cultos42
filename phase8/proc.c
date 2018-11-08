@@ -139,6 +139,10 @@ void ChildCode(){
 
 }
 
+void ChldHandler(){
+
+}
+
 void TermProc(){ 
    int my_pid, child, device;
    char str[3];

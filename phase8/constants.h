@@ -46,5 +46,8 @@
 
 #define FORK 2 
 #define GETPPID 64
+#define WAITCALL 7
+#define EXIT 1
+#define SIGCHILD 17
 
 #endif

@@ -23,4 +23,8 @@ int GetPpid(void);
 
 int Fork(void);
 
+void Exit(int ec);
+
+int Wait(int *);
+
 #endif

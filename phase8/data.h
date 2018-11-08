@@ -9,7 +9,7 @@
 
 extern int cur_pid;            // PID of current selected running process
                                // prototype the rest...
-extern q_t ready_q, avail_q;
+extern q_t ready_q, avail_q, wait_q;
 extern pcb_t pcb[PROC_MAX];
 extern char stack[PROC_MAX][STACK_SIZE];
 extern int sys_ticks; // OS time
