@@ -327,7 +327,7 @@ void ForkISR(){
   //breakpoint();
   while(*p!=0){
    //tmp=p;
-    *p =  *p - distance;
+    *p =  *p + distance;
     p =(int *) *p;
     //p=(int)*p;
     //(int *)pcb[cur_pid].TF_p->ebp;

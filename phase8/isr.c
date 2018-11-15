@@ -311,12 +311,12 @@ void ForkISR(){
   }
   
   pcb[child]=pcb[cur_pid];
-  //MemCpy((char *)pcb[child], (char *)pcb[cur_pid], sizeof(pcb_t));
+  
   pcb[child].state=READY;
   EnQ(child, &ready_q);
   pcb[child].ppid=cur_pid;
 
-  //move stacj stuff
+  //move stack stuff
   MemCpy((char *)stack[child], (char *)stack[cur_pid], STACK_SIZE);  
   distance=(unsigned)&stack[child]-(unsigned)&stack[cur_pid];
   (int)pcb[child].TF_p += distance;
@@ -327,15 +327,10 @@ void ForkISR(){
   (int)pcb[child].TF_p->edi += distance;
   
   p=(int *)pcb[child].TF_p->ebp;  
-  //breakpoint();
   while(*p!=0){
-   //tmp=p;
-    *p =  *p - distance;
+    *p =  *p + distance;
     p =(int *) *p;
-    //p=(int)*p;
-    //(int *)pcb[cur_pid].TF_p->ebp;
   }
-    
 }
 
 void ExitISR(){
@@ -380,10 +375,6 @@ void WaitISR(){
   EnQ(cpid, &avail_q);
   pcb[cpid].state=AVAIL;
 }
-
-
-
-
 
 
 
