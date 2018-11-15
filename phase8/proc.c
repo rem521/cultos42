@@ -140,8 +140,8 @@ void ChildCode(){
 }
 
 void ChldHandler(){
-  int my_pid, device, ec;
-  char str[3];
+  int my_pid, device, ec, cpid;
+  char str[3], cstr[3], ecstr[3];
   my_pid = GetPid();
   str[0] = my_pid / 10 + '0' ;
   str[1] = my_pid % 10 + '0';
@@ -151,14 +151,26 @@ void ChldHandler(){
     device = TERM0;
   if(my_pid%2==1)
     device = TERM1;
-  Wait(&ec); 
+  cpid=Wait(&ec);
+  cstr[0] = cpid / 10 + '0' ;
+  cstr[1] = cpid % 10 + '0';
+  cstr[2] = '\0';
+  ecstr[0] = ec / 10 + '0' ;
+  ecstr[1] = ec % 10 + '0';
+  ecstr[2] = '\0';
   //Write calls from Wait
-  
+  Write(device, "my_pid ");
+  Write(device, str);
+  Write(device, ", cpid ");
+  Write(device, cstr);
+  Write(device, ", ec ");
+  Write(device, ecstr);
+  Write(device, "\n\r");
 }
 
 void TermProc(){ 
    int my_pid, child, device, fg, ec;
-   char str[3];
+   char str[3], cstr[3], ecstr[3];
    char buff[BUFF_SIZE];
 
   // get my PID and make a string from it (null-delimited)
@@ -196,8 +208,23 @@ void TermProc(){
           default:
             Sleep(my_pid * 2);
             if(fg==1){
-              Wait( &ec );
+              child=Wait( &ec );
               //Write();
+              child=Wait(&ec);
+              cstr[0] = child / 10 + '0' ;
+              cstr[1] = child % 10 + '0';
+              cstr[2] = '\0';
+              ecstr[0] = ec / 10 + '0' ;
+              ecstr[1] = ec % 10 + '0';
+              ecstr[2] = '\0';
+              //Write calls from Wait
+              Write(device, "my_pid ");
+              Write(device, str);
+              Write(device, ", cpid ");
+              Write(device, cstr);
+              Write(device, ", ec ");
+              Write(device, ecstr);
+              Write(device, "\n\r");
             }
          }
    }     
