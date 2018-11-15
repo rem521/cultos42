@@ -30,7 +30,6 @@ int InQ(q_t *p, int id){
     i++;
   }
 }
-
 // dequeue, 1st integer in queue
 // if queue empty, return -1
 int DeQ(q_t *p) { // return -1 if q[] is empty
@@ -66,6 +65,16 @@ void EnQ(int pid, q_t *p) {
 		p->tail = p->tail % Q_SIZE;
 		//p->q[p->tail] = pid;
 	}
+}
+
+void DelQ(q_t *p, int id){
+  int i;
+  int tmp;
+  for(i=0; i<=p->size; i++){
+    tmp=DeQ(p);
+    if(tmp==id) continue;
+    EnQ(tmp,p);
+  }
 }
 
 int StrCmp(char *s1, char *s2){

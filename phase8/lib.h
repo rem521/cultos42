@@ -13,6 +13,8 @@ int QisFull( q_t *p );
 
 int InQ( q_t *p, int);
 
+void DelQ(q_t *, int);
+
 int DeQ( q_t *p );
 
 void EnQ( int to_add, q_t *p );

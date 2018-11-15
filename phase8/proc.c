@@ -129,18 +129,18 @@ void ChildCode(){
      device = TERM0;
   if(ppid%2==1)
      device = TERM1;
-  while(1){
-    Write(device, "\r\n");
-    Write(device,"I'm child PID");
-    Write(device, str);
+  Write(device, "\r\n");
+  Write(device,"I'm child PID");
+  Write(device, str);
    //Write(device, "\r\n");
-    Sleep(3);
-  }
-
+  //Sleep(3);
+  Write(device, "\n\r");
+  Sleep(my_pid);
+  Exit(my_pid * 5);
 }
 
 void ChldHandler(){
-  int my_pid, device;
+  int my_pid, device, ec;
   char str[3];
   my_pid = GetPid();
   str[0] = my_pid / 10 + '0' ;
@@ -151,7 +151,7 @@ void ChldHandler(){
     device = TERM0;
   if(my_pid%2==1)
     device = TERM1;
-  //Wait(); 
+  Wait(&ec); 
   //Write calls from Wait
   
 }
@@ -194,9 +194,9 @@ void TermProc(){
           case 0:
             ChildCode();
           default:
-            Sleep(my_pi * 2);
+            Sleep(my_pid * 2);
             if(fg==1){
-              //Wait();
+              Wait( &ec );
               //Write();
             }
          }

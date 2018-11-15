@@ -346,13 +346,45 @@ void ExitISR(){
     pcb[cur_pid].state=ZOMBIE;
     cur_pid=-1;
     if(pcb[ppid].sigchld_handler_p != NULL)
-      WapperISR(pcb[ppid].sigchld_handler_p, ppid);
+      WrapperISR(ppid, pcb[ppid].sigchld_handler_p);
     return;
   }
+  DelQ(&wait_q, ppid);
+  EnQ(ppid, &ready_q);
+  pcb[ppid].state=READY;
   
+  pcb[ppid].cpid=cur_pid;
+  pcb[ppid].ec=ec;
+
+  EnQ(cur_pid, &avail_q);
+  pcb[cur_pid].state=AVAIL;
+  cur_pid=-1;
 }
 
 void WaitISR(){
-
+  int cpid, *ec_p;
+  for(cpid=0; cpid<=PROC_MAX; cpid++){
+    if(pcb[cpid].state==ZOMBIE && pcb[cpid].ppid==cur_pid) break;
+  }
+  if(cpid>PROC_MAX){
+    EnQ(cur_pid, &wait_q);
+    pcb[cur_pid].state=WAIT;
+    cur_pid=-1;
+    return;
+  }
+  
+  ec_p=(int *)pcb[cur_pid].TF_p->ebx;
+  *ec_p=pcb[cpid].ec;
+  pcb[cur_pid].TF_p->ecx=cpid;
+  
+  EnQ(cpid, &avail_q);
+  pcb[cpid].state=AVAIL;
 }
+
+
+
+
+
+
+
 
