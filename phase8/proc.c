@@ -132,8 +132,6 @@ void ChildCode(){
   Write(device, "\r\n");
   Write(device,"I'm child PID");
   Write(device, str);
-   //Write(device, "\r\n");
-  //Sleep(3);
   Write(device, "\n\r");
   Sleep(my_pid);
   Exit(my_pid * 5);
@@ -188,7 +186,6 @@ void TermProc(){
    Signal(SIGINT, Ouch);
 
    while(1){
-        //Sleep(1);
         Write(device, str);
         Write(device, " enter > ");
         Read(device, buff);
@@ -210,8 +207,6 @@ void TermProc(){
           default:
             Sleep(my_pid * 2);
             if(fg==1){
-              //child=Wait( &ec );
-              //Write();
               child=Wait(&ec);
               cstr[0] = child / 10 + '0' ;
               cstr[1] = child % 10 + '0';

@@ -69,7 +69,7 @@ void SleepISR(void){
 
    pcb[cur_pid].wake_time = sys_ticks + sleepSecond * 100;
    pcb[cur_pid].state = SLEEPY;
-   cur_pid = -1; //might need to be zero!!
+   cur_pid = -1;
 }
 
 void SetVideoISR(void){
@@ -302,7 +302,7 @@ void GetPpidISR(){
 void ForkISR(){
   int child;
   int distance;
-  int *p; // *tmp;
+  int *p; 
   child=DeQ(&avail_q);
   pcb[cur_pid].TF_p->ebx = child;
   if(child == -1){
@@ -351,8 +351,6 @@ void ExitISR(){
   ec_p=(int *)pcb[ppid].TF_p->ebx;
   *ec_p=ec;
   pcb[ppid].TF_p->ecx= cur_pid;
-  //pcb[ppid].cpid=cur_pid;
-  //pcb[ppid].ec=ec; REMOVE ADDED PCP DATA
 
   EnQ(cur_pid, &avail_q);
   pcb[cur_pid].state=AVAIL;
