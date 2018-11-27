@@ -166,6 +166,7 @@ void ChldHandler(){
   Write(device, ", ec ");
   Write(device, ecstr);
   Write(device, "\n\r");
+  Signal(SIGCHLD, 0);
 }
 
 void TermProc(){ 
@@ -187,7 +188,7 @@ void TermProc(){
    Signal(SIGINT, Ouch);
 
    while(1){
-        Sleep(1);
+        //Sleep(1);
         Write(device, str);
         Write(device, " enter > ");
         Read(device, buff);
@@ -197,7 +198,7 @@ void TermProc(){
         if(StrCmp(buff, "fork")) fg=1;
         else if(StrCmp(buff, "fork&")) fg=0;
         else continue;
-        if(fg==1) Signal(SIGCHLD, ChldHandler);
+        if(fg==0) Signal(SIGCHLD, ChldHandler);
         child=Fork();
         switch(child){
           case -1:
@@ -205,10 +206,11 @@ void TermProc(){
             break;
           case 0:
             ChildCode();
+            break; //maybe remove
           default:
             Sleep(my_pid * 2);
             if(fg==1){
-              child=Wait( &ec );
+              //child=Wait( &ec );
               //Write();
               child=Wait(&ec);
               cstr[0] = child / 10 + '0' ;

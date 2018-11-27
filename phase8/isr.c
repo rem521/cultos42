@@ -348,8 +348,11 @@ void ExitISR(){
   EnQ(ppid, &ready_q);
   pcb[ppid].state=READY;
   
-  pcb[ppid].cpid=cur_pid;
-  pcb[ppid].ec=ec;
+  ec_p=(int *)pcb[ppid].TF_p->ebx;
+  *ec_p=ec;
+  pcb[ppid].TF_p->ecx= cur_pid;
+  //pcb[ppid].cpid=cur_pid;
+  //pcb[ppid].ec=ec; REMOVE ADDED PCP DATA
 
   EnQ(cur_pid, &avail_q);
   pcb[cur_pid].state=AVAIL;
@@ -361,7 +364,7 @@ void WaitISR(){
   for(cpid=0; cpid<=PROC_MAX; cpid++){
     if(pcb[cpid].state==ZOMBIE && pcb[cpid].ppid==cur_pid) break;
   }
-  if(cpid>PROC_MAX){
+  if(cpid>=PROC_MAX){
     EnQ(cur_pid, &wait_q);
     pcb[cur_pid].state=WAIT;
     cur_pid=-1;
@@ -369,7 +372,7 @@ void WaitISR(){
   }
   
   ec_p=(int *)pcb[cur_pid].TF_p->ebx;
-  *ec_p=pcb[cpid].ec;
+  *ec_p=pcb[cpid].TF_p->ebx;
   pcb[cur_pid].TF_p->ecx=cpid;
   
   EnQ(cpid, &avail_q);

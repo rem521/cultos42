@@ -24,7 +24,6 @@ typedef struct {
 	int life;
   int wake_time;
   int ppid;
-  int cpid, ec;
 	state_t state;
   func_p_t sigint_handler_p, sigchld_handler_p;
 } pcb_t;                     
