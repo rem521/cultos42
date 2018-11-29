@@ -203,7 +203,7 @@ void TermProc(){
             break;
           case 0:
             ChildCode();
-            break; //maybe remove
+            break; 
           default:
             Sleep(my_pid * 2);
             if(fg==1){
