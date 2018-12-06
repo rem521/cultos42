@@ -92,6 +92,25 @@ void MemCpy(char *dst, char *src, int size){
   }
 }
 
+void ReclaimPages(int pid){
+  int i;
+  for(i=0; i<PAGE_MAX; i++){
+    if(pages[i].owner==pid) pages[i].owner=-1;
+  }
+}
+
+int Alloc(int pid, int how_many, int pages_index[]){
+  int i;
+  for(i=0, i<PAGE_MAX; i++){
+  }
+  return -1;
+}
+
+
+
+
+
+
 
 
 

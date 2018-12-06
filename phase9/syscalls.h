@@ -27,4 +27,6 @@ void Exit(int ec);
 
 int Wait(int *);
 
+int Exec(func_p_t2, int);
+
 #endif

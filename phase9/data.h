@@ -21,4 +21,6 @@ extern int car_sem;
 
 extern term_if_t term_if[TERM_MAX];
 
+extern page_t pages[PAGE_MAX];
+
 #endif                         // endif of ifndef

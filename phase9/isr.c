@@ -355,6 +355,8 @@ void ExitISR(){
   EnQ(cur_pid, &avail_q);
   pcb[cur_pid].state=AVAIL;
   cur_pid=-1;
+
+  ReclaimPages(cur_pid);
 }
 
 void WaitISR(){
@@ -375,7 +377,42 @@ void WaitISR(){
   
   EnQ(cpid, &avail_q);
   pcb[cpid].state=AVAIL;
+  ReclaimPages(cur_pid);
 }
+
+void ExecISR(){
+  int code_addr, device, pi[2], status, *p;
+  
+  code_addr = pcb[cur_pid].TF_p->ebx;
+  device = pcb[cur_pid].TF_p->ecx;
+
+  status = Alloc(cur_pid, 2, pi);
+
+  if(status==-1){
+    pcb[cur_pid].TF_p->edx = -1;
+    return;
+  }
+  MemCpy((char*)pages[pi[0]].addr, (char*) code_addr, PAGE_SIZE);
+  Bzero((char*)pages[pi[1]].addr, PAGE_SIZE);
+
+  p=(int *)(pages[pi[1]].addr + PAGE_SIZE);
+  p--;
+  *p=device;
+  p--;
+  *p=0;
+
+  pcb[cur_pid].TF_p = (TF_t *)p;
+  pcb[cur_pid].TF_p--;
+
+  pcb[cur_pid].TF_p->efl= EF_DEFAULT_VALUE|EF_INTR;
+  pcb[cur_pid].TF_p->cs= get_cs();
+  pcb[cur_pid].TF_p->eip= pages[pi[0]].addr;
+
+}
+
+
+
+
 
 
 

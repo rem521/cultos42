@@ -50,4 +50,11 @@
 #define EXIT 1
 #define SIGCHLD 17
 
+
+#define EXEC 11
+#define BASE_ADDR 0xe00000
+#define PAGE_SIZE 0x1000
+#define PAGE_MAX 100
+
+
 #endif

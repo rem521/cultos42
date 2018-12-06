@@ -23,5 +23,10 @@ int StrCmp(char *, char *);
 
 void MemCpy( char *, char *, int);
 
+void ReclaimPages(int);
+
+int Alloc(int, int, int []);
+
+
 #endif
 

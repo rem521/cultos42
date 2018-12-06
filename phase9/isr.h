@@ -43,5 +43,6 @@ void WaitISR();
 
 void ExitISR();
 
+void ExecISR();
 
 #endif

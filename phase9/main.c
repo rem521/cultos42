@@ -15,6 +15,7 @@ int cur_pid;                        // current running PID; if -1, none selected
 q_t ready_q, avail_q, sem_q, wait_q;               // avail PID and those created/ready to run
 pcb_t pcb[PROC_MAX];                // Process Control Blocks
 char stack[PROC_MAX][STACK_SIZE];   // process runtime stacks
+page_t pages[PAGE_MAX];
 int sys_ticks;
 unsigned short *video_p;
 
@@ -68,12 +69,15 @@ void InitKernel(void) {             // init and set up kernel!
    
    for(i=0; i<Q_SIZE; i++) {    // add all avail PID's to the queue
       EnQ(i, &avail_q); 
-
    }
 
    for(i=0; i<SEM_MAX; i++) {
       EnQ(i, &sem_q);
+   }
 
+   for(i=0; i<PAGE_MAX; i++){
+     pages[i].owner=-1;
+     pages[i].addr=BASE_ADDR + PAGE_SIZE*i;
    }
    
    sys_ticks = 0;
@@ -179,6 +183,9 @@ void TheKernel(TF_t *TF_p) {           // kernel runs
          break;
       case EXIT:
          ExitISR();
+         break;
+      case EXEC:
+         ExecISR();
          break;
       default:
         cons_printf("Entry issue");
