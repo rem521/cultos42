@@ -101,9 +101,20 @@ void ReclaimPages(int pid){
 
 int Alloc(int pid, int how_many, int pages_index[]){
   int i;
-  for(i=0, i<PAGE_MAX; i++){
+  int j=0;
+  for(i=0; i<PAGE_MAX; i++){
+    if(page[i].owner==NULL) j++;
   }
-  return -1;
+  if(j <= how_many) return -1;
+  j=0;
+  for(i=0; i<PAGE_MAX; i++){
+    if(page[i].owner==NULL){
+      pages[i].owner=pid;
+      pages_index[j]=i;
+      j++;
+    }
+  }
+  return 0;
 }
 
 
