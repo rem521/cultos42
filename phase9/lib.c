@@ -112,6 +112,7 @@ int Alloc(int pid, int how_many, int pages_index[]){
       pages[i].owner=pid;
       pages_index[j]=i;
       j++;
+      if(j>=2) break;
     }
   }
   return 0;
