@@ -383,8 +383,8 @@ void WaitISR(){
 void ExecISR(){
   int code_addr, device, pi[2], status, *p;
   
-  code_addr = pcb[cur_pid].TF_p->ebx;
-  device = pcb[cur_pid].TF_p->ecx;
+  code_addr = (int)pcb[cur_pid].TF_p->ebx;
+  device = (int)pcb[cur_pid].TF_p->ecx;
 
   status = Alloc(cur_pid, 2, pi);
 
@@ -392,6 +392,7 @@ void ExecISR(){
     pcb[cur_pid].TF_p->edx = -1;
     return;
   }
+  
   MemCpy((char*)pages[pi[0]].addr, (char*) code_addr, PAGE_SIZE);
   Bzero((char*)pages[pi[1]].addr, PAGE_SIZE);
 
@@ -409,9 +410,6 @@ void ExecISR(){
   pcb[cur_pid].TF_p->eip= pages[pi[0]].addr;
 
 }
-
-
-
 
 
 

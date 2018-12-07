@@ -116,8 +116,8 @@ void Wrapper(func_p_t handler_p){
   asm("movl %%ebp, %%esp; popl %%ebp; ret $4" ::);
 }
 
-void ChildCode(){
-  int my_pid, device;
+void ChildCode(int device){
+  int my_pid;
   int ppid;
   char str[3];
   my_pid = GetPid();
@@ -125,10 +125,6 @@ void ChildCode(){
   str[0] = my_pid / 10 + '0' ;
   str[1] = my_pid % 10 + '0';
   str[2] = '\0';
-  if(ppid%2==0)
-     device = TERM0;
-  if(ppid%2==1)
-     device = TERM1;
   Write(device, "\r\n");
   Write(device,"I'm child PID");
   Write(device, str);
@@ -202,7 +198,10 @@ void TermProc(){
             Write(device, "OS failed to fork!\n\r");
             break;
           case 0:
-            ChildCode();
+            if(-1 == Exec(ChildCode, device)){
+              Write(device, "OS failed to Exec()!\n\r");
+              Exit(-1);
+            }
             break; 
           default:
             Sleep(my_pid * 2);

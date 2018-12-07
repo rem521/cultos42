@@ -17,7 +17,7 @@ void Ouch();
 
 void Wrapper(func_p_t);
 
-void ChildCode(void);
+void ChildCode(int);
 
 void ChldHandler();
 
